@@ -612,7 +612,7 @@ GameObject:
   - component: {fileID: 3396855012256964189}
   - component: {fileID: 3396855012257734205}
   - component: {fileID: 3396855012258864381}
-  - component: {fileID: 2727069615421316044}
+  - component: {fileID: 7991652500841845619}
   m_Layer: 0
   m_Name: polySurface1083
   m_TagString: Untagged
@@ -682,7 +682,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &2727069615421316044
+--- !u!65 &7991652500841845619
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -693,8 +693,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.39431, y: 1.4302696, z: 1.7107506}
-  m_Center: {x: -6.289609, y: 0.7029471, z: -4.117749}
+  m_Size: {x: 0.34827328, y: 0.775496, z: 1.6672773}
+  m_Center: {x: -6.2665906, y: 0.28023946, z: -4.139486}
 --- !u!1 &3396855012256858751
 GameObject:
   m_ObjectHideFlags: 0
