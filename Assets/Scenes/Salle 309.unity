@@ -133,8 +133,9 @@ GameObject:
   - component: {fileID: 326432391}
   - component: {fileID: 326432393}
   - component: {fileID: 326432392}
+  - component: {fileID: 326432394}
   m_Layer: 5
-  m_Name: Debug.info
+  m_Name: Log.info
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -200,6 +201,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 326432390}
   m_CullTransparentMesh: 0
+--- !u!114 &326432394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326432390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1eda460445f683a48bec65f46fcf7ee1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tempsaff: 15
 --- !u!1 &727813359
 GameObject:
   m_ObjectHideFlags: 0
