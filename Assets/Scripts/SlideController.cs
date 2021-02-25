@@ -114,7 +114,7 @@ public class SlideController : MonoBehaviour
         id_diapo_active = (id_diapo_active+1)%diapo.Count; //index diapo suivante
         material.SetTexture("_MainTex", diapo[id_diapo_active]); //charge la diapo suivante
         timer -= 1.0f;
-        t.GetComponent<Log_UI>().AjoutLog("Id_diapo_active : " + id_diapo_active);// affichage des logs dans le canvas
+        t.GetComponent<Log_UI>().AjoutLog("Id_diapo_active : " + id_diapo_active + "\n");// affichage des logs dans le canvas
 
     }
 }
