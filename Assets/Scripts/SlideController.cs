@@ -15,9 +15,13 @@ public class SlideController : MonoBehaviour
     private int id_diapo_active = 0;
     private float timer = 0.0f; //initialise le timer à zéro
     private GameObject t;
+    private TextMesh zonetexte;
 
     private void Awake()
     {
+        zonetexte = this.gameObject.GetComponentInChildren<TextMesh>();
+        zonetexte.text = "";
+
         Debug.Log(this.name);
         if (this.GetComponent<Renderer>()) // Test si le Component existe sur l'objet courant
         {
@@ -75,6 +79,8 @@ public class SlideController : MonoBehaviour
         if (www.isNetworkError || www.isHttpError) // Si un problème de connexion
         {
             Debug.Log(www.error);
+            //afficher un message ici pour les soucis de réseau
+            zonetexte.text = "Vous avez un problème de réseau";
         }
         else
         {
@@ -82,10 +88,11 @@ public class SlideController : MonoBehaviour
             //Debug.Log(www.downloadHandler.text);
 
             // On passe d'un string contenant l'ensemble des URL, à une liste de string contenenat une URL chacun
-            string lst_image = www.downloadHandler.text;
+            string lst_image = www.downloadHandler.text; //transforme l'image reçu en format texte
             List<string> lines = new List<string>(
                 lst_image.Split(new string[] { "\r", "\n" },
                 StringSplitOptions.RemoveEmptyEntries));
+            int nombrediapo = lines.Count;
 
             // Pour chaque URL d'image, on la télécharge et la range dans la variable diapo
             foreach (string url in lines)
@@ -96,10 +103,25 @@ public class SlideController : MonoBehaviour
                 if (www.isNetworkError || www.isHttpError)
                 {
                     Debug.Log(www.error);
+                    //message pb internet
+                    zonetexte.text = "Vous avez un problème internet";
                 }
                 else
                 {
-                    diapo.Add(((DownloadHandlerTexture)www.downloadHandler).texture);
+                    Texture tex = ((DownloadHandlerTexture)www.downloadHandler).texture; //C'est un cast !
+                    if (tex == null)
+                    {
+                        //ERREUR le DL
+                        zonetexte.text = "Erreur lors du téléchargement";
+                    }
+                    else
+                    {
+                        diapo.Add((Texture2D)tex);
+                        //la diapo ajoute l'image du lien à sa diapo
+                        //ajouter l'avancement du téléchargement ici
+                        int nbdiapopasse = diapo.Count;
+                        zonetexte.text = nbdiapopasse + "/" + nombrediapo;
+                    }
                 }
             }
         }
