@@ -84,6 +84,7 @@ public class SlideController : MonoBehaviour
             List<string> lines = new List<string>(
                 lst_image.Split(new string[] { "\r", "\n" },
                 StringSplitOptions.RemoveEmptyEntries));
+            int nombrediapo = lines.Count;
 
             // Pour chaque URL d'image, on la télécharge et la range dans la variable diapo
             foreach (string url in lines)
@@ -98,8 +99,17 @@ public class SlideController : MonoBehaviour
                 }
                 else
                 {
-                    diapo.Add(((DownloadHandlerTexture)www.downloadHandler).texture);
-                    //la diapo ajoute l'image du lien à sa diapo
+                    Texture tex = ((DownloadHandlerTexture)www.downloadHandler).texture; //C'est un cast !
+                    if (tex == null)
+                    {
+                        //ERREUR le DL
+                    }
+                    else
+                    {
+                        diapo.Add((Texture2D)tex);
+                        //la diapo ajoute l'image du lien à sa diapo
+                        //ajouter le pourcentage de l'avancement du téléchargement ici
+                    }
                 }
             }
         }
