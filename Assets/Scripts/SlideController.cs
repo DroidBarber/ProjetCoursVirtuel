@@ -12,6 +12,7 @@ public class SlideController : MonoBehaviour
     private Material material;
     private Renderer rendererObj;
     private int id_diapo_active = 0;
+    private float timer = 0.0f; //initialise le timer à zéro
 
     private void Awake()
     {
@@ -23,7 +24,6 @@ public class SlideController : MonoBehaviour
             material = rendererObj.material; // Récuperation du material
             material.SetTexture("_MainTex", null); // Pas de texture(=image) par défaut
             StartCoroutine(GetDiapo());
-            Time.fixedDeltaTime = 2.0f;//definit le temps d'actualisation de fixedUpdate à 2sec
         }
         else
         {
@@ -41,7 +41,7 @@ public class SlideController : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.P))//appuyer sur P pour activer ou desactiver le diapo
         {
-            rendererObj.enabled = !rendererObj.enabled;
+            rendererObj.enabled = !rendererObj.enabled; //change l'état du diapo (activé ou non)
             if (diapo.Count != 0)
             {
                 material.SetTexture("_MainTex", diapo[id_diapo_active]);
@@ -105,9 +105,12 @@ public class SlideController : MonoBehaviour
     {
         if (!rendererObj.enabled || diapo.Count <= 0) return; //execute la fonction uniquement si le tableau est activé
         //et si le diapo est chargé
-        
+        timer += Time.deltaTime;
+        if (!(timer > 1.0f)) return;
         Debug.Log("Id_diapo_active : " + id_diapo_active);
         id_diapo_active = (id_diapo_active+1)%diapo.Count; //index diapo suivante
         material.SetTexture("_MainTex", diapo[id_diapo_active]); //charge la diapo suivante
+        timer -= 1.0f;
+
     }
 }
