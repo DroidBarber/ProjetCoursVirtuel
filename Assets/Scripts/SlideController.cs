@@ -15,13 +15,15 @@ public class SlideController : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log(this.name);
         if (this.GetComponent<Renderer>()) // Test si le Component existe sur l'objet courant
         {
             rendererObj = this.GetComponent<Renderer>(); // Récuperation du renderer
-            rendererObj.enabled = false; // Par défaut pas d'affichage d'image
+            rendererObj.enabled = true; // Par défaut pas d'affichage d'image
             material = rendererObj.material; // Récuperation du material
             material.SetTexture("_MainTex", null); // Pas de texture(=image) par défaut
             StartCoroutine(GetDiapo());
+            Time.fixedDeltaTime = 2.0f;//definit le temps d'actualisation de fixedUpdate à 2sec
         }
         else
         {
@@ -37,7 +39,7 @@ public class SlideController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.P))//appuyer sur M pour activer ou desactiver le diapo
+        if (Input.GetKeyUp(KeyCode.P))//appuyer sur P pour activer ou desactiver le diapo
         {
             rendererObj.enabled = !rendererObj.enabled;
             if (diapo.Count != 0)
@@ -70,6 +72,7 @@ public class SlideController : MonoBehaviour
         if (www.isNetworkError || www.isHttpError) // Si un problème de connexion
         {
             Debug.Log(www.error);
+            //afficher un message ici pour les soucis de réseau
         }
         else
         {
@@ -77,7 +80,7 @@ public class SlideController : MonoBehaviour
             //Debug.Log(www.downloadHandler.text);
 
             // On passe d'un string contenant l'ensemble des URL, à une liste de string contenenat une URL chacun
-            string lst_image = www.downloadHandler.text;
+            string lst_image = www.downloadHandler.text; //transforme l'image reçu en format texte
             List<string> lines = new List<string>(
                 lst_image.Split(new string[] { "\r", "\n" },
                 StringSplitOptions.RemoveEmptyEntries));
@@ -91,12 +94,23 @@ public class SlideController : MonoBehaviour
                 if (www.isNetworkError || www.isHttpError)
                 {
                     Debug.Log(www.error);
+                    //message pb internet
                 }
                 else
                 {
                     diapo.Add(((DownloadHandlerTexture)www.downloadHandler).texture);
+                    //la diapo ajoute l'image du lien à sa diapo
                 }
             }
         }
+    }
+    private void FixedUpdate()
+    {
+        if (!rendererObj.enabled || diapo.Count <= 0) return; //execute la fonction uniquement si le tableau est activé
+        //et si le diapo est chargé
+        
+        Debug.Log("Id_diapo_active : " + id_diapo_active);
+        id_diapo_active = (id_diapo_active+1)%diapo.Count; //index diapo suivante
+        material.SetTexture("_MainTex", diapo[id_diapo_active]); //charge la diapo suivante
     }
 }
