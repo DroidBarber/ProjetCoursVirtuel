@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class SlideController : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class SlideController : MonoBehaviour
     private Renderer rendererObj;
     private int id_diapo_active = 0;
     private float timer = 0.0f; //initialise le timer à zéro
+    private GameObject t;
 
     private void Awake()
     {
@@ -29,6 +31,7 @@ public class SlideController : MonoBehaviour
         {
             Debug.LogError("Renderer manquant pour le " + this.name);
         }
+        t = GameObject.Find("Log_UI");
     }
 
     void Start()
@@ -107,10 +110,11 @@ public class SlideController : MonoBehaviour
         //et si le diapo est chargé
         timer += Time.deltaTime;
         if (!(timer > 1.0f)) return;
-        Debug.Log("Id_diapo_active : " + id_diapo_active);
+       // Debug.Log("Id_diapo_active : " + id_diapo_active);
         id_diapo_active = (id_diapo_active+1)%diapo.Count; //index diapo suivante
         material.SetTexture("_MainTex", diapo[id_diapo_active]); //charge la diapo suivante
         timer -= 1.0f;
+        t.GetComponent<Log_UI>().AjoutLog("Id_diapo_active : " + id_diapo_active);// affichage des logs dans le canvas
 
     }
 }
