@@ -274,8 +274,15 @@ namespace Photon.Realtime
         }
 
         /// <summary>
-        /// Gets if this room uses autoCleanUp to remove all (buffered) RPCs and instantiated GameObjects when a player leaves.
+        /// Gets if this room cleans up the event cache when a player (actor) leaves. 
         /// </summary>
+        /// <remarks>
+        /// This affects which events joining players get.
+        /// 
+        /// Set in room creation via RoomOptions.CleanupCacheOnLeave.
+        /// 
+        /// Within PUN, auto cleanup of events means that cached RPCs and instantiated networked objects are deleted from the room.
+        /// </remarks>
         public bool AutoCleanUp
         {
             get
@@ -519,11 +526,11 @@ namespace Photon.Realtime
             this.Players[player.ActorNumber] = player;
             player.RoomReference = this;
 
-            // while initializing the room, the players are not guaranteed to be added in-order
-            if (this.MasterClientId == 0 || player.ActorNumber < this.MasterClientId)
-            {
-                this.masterClientId = player.ActorNumber;
-            }
+            //// while initializing the room, the players are not guaranteed to be added in-order
+            //if (this.MasterClientId == 0 || player.ActorNumber < this.MasterClientId)
+            //{
+            //    this.masterClientId = player.ActorNumber;
+            //}
 
             return player;
         }
