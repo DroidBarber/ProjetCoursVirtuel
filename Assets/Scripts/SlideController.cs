@@ -5,37 +5,36 @@ using System.Numerics;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using TMPro;
 
+[RequireComponent(typeof(Renderer))] // Oblige que l'objet qui possède ce script à posséder un Renderer, et s'il n'en a pas, en crée un
 public class SlideController : MonoBehaviour
 {
-    // Start is called before the first frame update
     public List<Texture2D> diapo = new List<Texture2D>();
+    public bool isAutoChangeSlide = false;
+    public float speedAutoChangeSlide = 5.0f;
     private Material material;
     private Renderer rendererObj;
     private int id_diapo_active = 0;
     private float timer = 0.0f; //initialise le timer à zéro
-    private GameObject t;
-    private TextMesh zonetexte;
+    private bool isAllDownload = false;
+    public Log_UI logObj;
+    public TextMeshProUGUI textLogSurDiapo;
 
     private void Awake()
     {
-        zonetexte = this.gameObject.GetComponentInChildren<TextMesh>();
-        zonetexte.text = "";
+        rendererObj = this.GetComponent<Renderer>(); // Récuperation du renderer
+        rendererObj.enabled = true; // Par défaut pas d'affichage d'image
+        material = rendererObj.material; // Récuperation du material
+        material.SetTexture("_MainTex", null); // Pas de texture(=image) par défaut
+        StartCoroutine(GetDiapo());
 
-        Debug.Log(this.name);
-        if (this.GetComponent<Renderer>()) // Test si le Component existe sur l'objet courant
-        {
-            rendererObj = this.GetComponent<Renderer>(); // Récuperation du renderer
-            rendererObj.enabled = true; // Par défaut pas d'affichage d'image
-            material = rendererObj.material; // Récuperation du material
-            material.SetTexture("_MainTex", null); // Pas de texture(=image) par défaut
-            StartCoroutine(GetDiapo());
-        }
-        else
-        {
-            Debug.LogError("Renderer manquant pour le " + this.name);
-        }
-        t = GameObject.Find("Log_UI");
+        if (!logObj)
+            Debug.LogError("logObj non assigné");
+
+        if (!textLogSurDiapo)
+            Debug.LogError("logObj non assigné");
+
     }
 
     void Start()
@@ -43,7 +42,6 @@ public class SlideController : MonoBehaviour
 
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyUp(KeyCode.P))//appuyer sur P pour activer ou desactiver le diapo
@@ -72,30 +70,33 @@ public class SlideController : MonoBehaviour
 
     private IEnumerator GetDiapo()
     {
-
         UnityWebRequest www = UnityWebRequest.Get("https://pastebin.com/raw/8e3DsJ2V");
         yield return www.SendWebRequest(); // envoie de la requète à l'URL
 
         if (www.isNetworkError || www.isHttpError) // Si un problème de connexion
         {
             Debug.Log(www.error);
+
             //afficher un message ici pour les soucis de réseau
-            zonetexte.text = "Vous avez un problème de réseau";
+            textLogSurDiapo.text = "Vous avez un problème de réseau internet";
         }
         else
         {
             // Affichage dans la console des données reçues
             //Debug.Log(www.downloadHandler.text);
 
-            // On passe d'un string contenant l'ensemble des URL, à une liste de string contenenat une URL chacun
-            string lst_image = www.downloadHandler.text; //transforme l'image reçu en format texte
-            List<string> lines = new List<string>(
+            // On récupère la liste des URL des images
+            string lst_image = www.downloadHandler.text;
+
+            // On passe d'un string contenant l'ensemble des URL, à une liste de string contenenant une URL chacune
+            List<string> linesURL = new List<string>(
                 lst_image.Split(new string[] { "\r", "\n" },
                 StringSplitOptions.RemoveEmptyEntries));
-            int nombrediapo = lines.Count;
+
+            int nbDiapo = linesURL.Count;
 
             // Pour chaque URL d'image, on la télécharge et la range dans la variable diapo
-            foreach (string url in lines)
+            foreach (string url in linesURL)
             {
                 www = UnityWebRequestTexture.GetTexture(url);
                 yield return www.SendWebRequest();
@@ -104,23 +105,35 @@ public class SlideController : MonoBehaviour
                 {
                     Debug.Log(www.error);
                     //message pb internet
-                    zonetexte.text = "Vous avez un problème internet";
+                    textLogSurDiapo.text = "Vous avez un problème de réseau internet";
                 }
                 else
                 {
-                    Texture tex = ((DownloadHandlerTexture)www.downloadHandler).texture; //C'est un cast !
+                    Texture tex = ((DownloadHandlerTexture)www.downloadHandler).texture; // Le (DownloadHandlerTexture) est un cast !
                     if (tex == null)
                     {
+                        Debug.Log("Erreur lors du téléchargement de l'image: " + url);
                         //ERREUR le DL
-                        zonetexte.text = "Erreur lors du téléchargement";
+                        textLogSurDiapo.text = "Erreur lors du téléchargement de l'image:\n" + url;
                     }
                     else
                     {
                         diapo.Add((Texture2D)tex);
                         //la diapo ajoute l'image du lien à sa diapo
                         //ajouter l'avancement du téléchargement ici
-                        int nbdiapopasse = diapo.Count;
-                        zonetexte.text = nbdiapopasse + "/" + nombrediapo;
+                        if(diapo.Count != linesURL.Count) // si on a pas encore télécharger toutes les images
+                        {
+                            textLogSurDiapo.text = "Téléchargement de la diapositive " + diapo.Count + "/" + linesURL.Count;
+
+                            // lag artificiel lor du téléchargement des images pour voir l'affichage
+                            yield return new WaitForSeconds(2);
+
+                        }
+                        else
+                        {
+                            textLogSurDiapo.text = "";
+                            isAllDownload = true;
+                        }
                     }
                 }
             }
@@ -128,15 +141,17 @@ public class SlideController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (!rendererObj.enabled || diapo.Count <= 0) return; //execute la fonction uniquement si le tableau est activé
-        //et si le diapo est chargé
-        timer += Time.deltaTime;
-        if (!(timer > 1.0f)) return;
-       // Debug.Log("Id_diapo_active : " + id_diapo_active);
-        id_diapo_active = (id_diapo_active+1)%diapo.Count; //index diapo suivante
-        material.SetTexture("_MainTex", diapo[id_diapo_active]); //charge la diapo suivante
-        timer -= 1.0f;
-        t.GetComponent<Log_UI>().AjoutLog("Id_diapo_active : " + id_diapo_active);// affichage des logs dans le canvas
+        //execute la fonction uniquement si le tableau est activé et si le diapo est chargé
+        if (!rendererObj.enabled || diapo.Count <= 0) return;
 
+        if (isAutoChangeSlide && isAllDownload)
+        {
+            timer += Time.fixedDeltaTime;
+            if (timer < speedAutoChangeSlide) return;
+            id_diapo_active = (id_diapo_active + 1) % diapo.Count; //index diapo suivante
+            material.SetTexture("_MainTex", diapo[id_diapo_active]); //charge la diapo suivante
+            timer -= speedAutoChangeSlide;
+            logObj.AjoutLog("Id_diapo_active : " + id_diapo_active, speedAutoChangeSlide);// affichage des logs dans le canvas
+        }
     }
 }

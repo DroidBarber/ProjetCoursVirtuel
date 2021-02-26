@@ -3,6 +3,20 @@ PUN 2 Change Log
 Exit Games GmbH - www.photonengine.com - forum.photonengine.com
 
 
+v2.28.1 (25. February 2021)
+Updated: Library to v4.1.5.1. which fixes a problem with IPv6 addresses which was introduced in v4.1.5.0.
+
+v2.28 (23. February 2021)
+Changed: PhotonView code to cache Owner and Controller, as well as storing the sceneViewId for objects which load with the scene. This is a bigger change and complex, so it may break some projects, despite the testing! Mail us, if you run into issues with ViewIDs, Ownership, etc: developer@photonengine.com.
+Added: DisconnectCause DnsExceptionOnConnect and ServerAddressInvalid (which might be renamed).
+Changed: Inspector to trim the values of AppId fields.
+Fixed: Likely fixes issue with Resources.Load failing to find prefabs in latest Unity versions. This is more of a workaround for Unity problems/changes.
+Changed: The re-usable list of PhotonViews in RemoveInstantiatedGO() is now cleared when it's no longer needed to avoid lingering PhotonView references (memory leaking).
+Added: OfflineMode to StaticReset(). So fast play mode (without domain reload) will not keep the client in offline mode.
+Changed: PhotonNetwork.Server for offline mode. It will now report the GameServer when an offlineroom is existing.
+Added: In OfflineMode, PhotonNetwork.LeaveRoom() will now also call the OnConnectedToMaster() callback. As the OfflineMode changes values immediately, the timing of callbacks might be slightly different than in online mode. Joining a room offline is instantaneous.
+Updated: Library to v4.1.5.0. which includes using the new Native Encryptor API (v2), a fix for NonAllocDictionary.Remove() and new StatusCode entries for DNS and IP issues.
+
 v2.27 (12. January 2021)
 Removed: "Simple" networking. Due to the progress on an upcoming networkin solution (Fusion), we will keep this set of components an external addon in maintenance mode (supported but not improved/extended).
 Updated: The Realtime API and Photon3Unity3d.dll to v4.1.4.9.
