@@ -11,6 +11,7 @@ public class Log_UI : MonoBehaviour
     private Text textObj;
     public float tempsaff = 15;
     public GameObject imageBackgroundLog;
+    private bool isActive = true;
 
     // Start is called before the first frame update
     void Awake()
@@ -41,14 +42,19 @@ public class Log_UI : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < listeLog.Count; i++)
+        if (isActive)
         {
-            textObj.text += listeLog[i];
-            if(i < listeLog.Count-1) // si ce n'est pas le dernier log, on retourne à la ligne
+
+            for (int i = 0; i < listeLog.Count; i++)
             {
-                textObj.text += "\n";
+                textObj.text += listeLog[i];
+                if (i < listeLog.Count - 1) // si ce n'est pas le dernier log, on retourne à la ligne
+                {
+                    textObj.text += "\n";
+                }
             }
         }
+        
 
         if (textObj.text == "") // si aucun log, on désactive l'image background
             imageBackgroundLog.SetActive(false);
@@ -66,4 +72,11 @@ public class Log_UI : MonoBehaviour
         listeLog.Add(log);
         listeChrono.Add(time);
     }
+
+
+    public void changeisActive()
+    {
+        this.isActive = !this.isActive;
+    }
+
 }
