@@ -5,6 +5,7 @@ using System.Numerics;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using TMPro;
 
 [RequireComponent(typeof(Renderer))] // Oblige que l'objet qui possède ce script à posséder un Renderer, et s'il n'en a pas, en crée un
 public class SlideController : MonoBehaviour
@@ -16,7 +17,9 @@ public class SlideController : MonoBehaviour
     private Renderer rendererObj;
     private int id_diapo_active = 0;
     private float timer = 0.0f; //initialise le timer à zéro
+    private bool isAllDownload = false;
     public Log_UI logObj;
+    public TextMeshProUGUI textLogSurDiapo;
 
     private void Awake()
     {
@@ -25,11 +28,13 @@ public class SlideController : MonoBehaviour
         material = rendererObj.material; // Récuperation du material
         material.SetTexture("_MainTex", null); // Pas de texture(=image) par défaut
         StartCoroutine(GetDiapo());
-        
+
         if (!logObj)
-        {
             Debug.LogError("logObj non assigné");
-        }
+
+        if (!textLogSurDiapo)
+            Debug.LogError("logObj non assigné");
+
     }
 
     void Start()
@@ -71,6 +76,9 @@ public class SlideController : MonoBehaviour
         if (www.isNetworkError || www.isHttpError) // Si un problème de connexion
         {
             Debug.Log(www.error);
+
+            //afficher un message ici pour les soucis de réseau
+            textLogSurDiapo.text = "Vous avez un problème de réseau internet";
         }
         else
         {
@@ -81,14 +89,14 @@ public class SlideController : MonoBehaviour
             string lst_image = www.downloadHandler.text;
 
             // On passe d'un string contenant l'ensemble des URL, à une liste de string contenenant une URL chacune
-            List<string> lines = new List<string>(
+            List<string> linesURL = new List<string>(
                 lst_image.Split(new string[] { "\r", "\n" },
                 StringSplitOptions.RemoveEmptyEntries));
 
-            int nbDiapo = lines.Count;
+            int nbDiapo = linesURL.Count;
 
             // Pour chaque URL d'image, on la télécharge et la range dans la variable diapo
-            foreach (string url in lines)
+            foreach (string url in linesURL)
             {
                 www = UnityWebRequestTexture.GetTexture(url);
                 yield return www.SendWebRequest();
@@ -97,6 +105,7 @@ public class SlideController : MonoBehaviour
                 {
                     Debug.Log(www.error);
                     //message pb internet
+                    textLogSurDiapo.text = "Vous avez un problème de réseau internet";
                 }
                 else
                 {
@@ -105,13 +114,26 @@ public class SlideController : MonoBehaviour
                     {
                         Debug.Log("Erreur lors du téléchargement de l'image: " + url);
                         //ERREUR le DL
+                        textLogSurDiapo.text = "Erreur lors du téléchargement de l'image:\n" + url;
                     }
                     else
                     {
                         diapo.Add((Texture2D)tex);
                         //la diapo ajoute l'image du lien à sa diapo
                         //ajouter l'avancement du téléchargement ici
-                        int nbdiapopasse = diapo.Count;
+                        if(diapo.Count != linesURL.Count) // si on a pas encore télécharger toutes les images
+                        {
+                            textLogSurDiapo.text = "Téléchargement de la diapositive " + diapo.Count + "/" + linesURL.Count;
+
+                            // lag artificiel lor du téléchargement des images pour voir l'affichage
+                            yield return new WaitForSeconds(2);
+
+                        }
+                        else
+                        {
+                            textLogSurDiapo.text = "";
+                            isAllDownload = true;
+                        }
                     }
                 }
             }
@@ -122,7 +144,7 @@ public class SlideController : MonoBehaviour
         //execute la fonction uniquement si le tableau est activé et si le diapo est chargé
         if (!rendererObj.enabled || diapo.Count <= 0) return;
 
-        if (isAutoChangeSlide)
+        if (isAutoChangeSlide && isAllDownload)
         {
             timer += Time.fixedDeltaTime;
             if (timer < speedAutoChangeSlide) return;
