@@ -6,18 +6,23 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using TMPro;
+using Photon.Pun;
+using Photon.Realtime;
 
 [RequireComponent(typeof(Renderer))] // Oblige que l'objet qui possède ce script à posséder un Renderer, et s'il n'en a pas, en crée un
-public class SlideController : MonoBehaviour
+[RequireComponent(typeof(PhotonView))]
+public class SlideController : MonoBehaviourPunCallbacks
 {
     public List<Texture2D> diapo = new List<Texture2D>();
     public bool isAutoChangeSlide = false;
+    public bool isOnlyMasterClientCanChangeDiapo = false;
     public float speedAutoChangeSlide = 5.0f;
     private Material material;
     private Renderer rendererObj;
     private int id_diapo_active = 0;
     private float timer = 0.0f; //initialise le timer à zéro
     private bool isAllDownload = false;
+    private bool isNeedChangeTexture = false;
     public Log_UI logObj;
     public TextMeshProUGUI textLogSurDiapo;
 
@@ -35,36 +40,95 @@ public class SlideController : MonoBehaviour
         if (!textLogSurDiapo)
             Debug.LogError("logObj non assigné");
 
+        
+    }
+
+    public override void OnJoinedRoom()
+    {
+        // Si c'est le MasterClient, c'est lui la référence, donc il va pas se demander à lui même
+        if (!PhotonNetwork.IsMasterClient) 
+        {
+            // Demande la synchronisation de l'id_diapo_active
+            PhotonView photonView = PhotonView.Get(this);
+            photonView.RPC("RequireSyncDiapo", RpcTarget.MasterClient);
+        }
     }
 
     void Start()
     {
-
+        
     }
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.P))//appuyer sur P pour activer ou desactiver le diapo
+        if (isAllDownload)
         {
-            rendererObj.enabled = !rendererObj.enabled; //change l'état du diapo (activé ou non)
-            if (diapo.Count != 0)
+            if (isNeedChangeTexture)
             {
                 material.SetTexture("_MainTex", diapo[id_diapo_active]);
+                isNeedChangeTexture = false;
             }
-            else
+            if (!isOnlyMasterClientCanChangeDiapo || PhotonNetwork.IsMasterClient)
             {
-                material.SetTexture("_MainTex", null);
+                if (Input.GetKeyUp(KeyCode.P))//appuyer sur P pour activer ou desactiver le diapo
+                {
+                    rendererObj.enabled = !rendererObj.enabled; //change l'état du diapo (activé ou non)
+                }
+                else if (Input.GetKeyUp(KeyCode.O) || OVRInput.Get(OVRInput.RawButton.X)) //diapo suivante
+                {
+
+                    DiapoNext();
+                }
+                else if (Input.GetKeyUp(KeyCode.I) || OVRInput.Get(OVRInput.RawButton.Y)) //diapo précédente
+                {
+                    DiapoBack();
+                }
             }
         }
-        else if (Input.GetKeyUp(KeyCode.O)) //diapo suivante
+    }
+
+    /// <summary>
+    /// Changer pour la diapositive suivante
+    /// </summary>
+    public void DiapoNext()
+    {
+        id_diapo_active = (id_diapo_active + 1) % diapo.Count;
+        
+        PhotonView photonView = PhotonView.Get(this);
+        photonView.RPC("SyncDiapo", RpcTarget.All, id_diapo_active);
+    }
+
+    /// <summary>
+    /// Changer pour la diapositive précédente
+    /// </summary>
+    public void DiapoBack()
+    {
+        id_diapo_active = (id_diapo_active - 1) >= 0 ? id_diapo_active - 1 : diapo.Count - 1;
+        PhotonView photonView = PhotonView.Get(this);
+        photonView.RPC("SyncDiapo", RpcTarget.All, id_diapo_active);
+    }
+
+    [PunRPC]
+    private void SyncDiapo(int id_diapo_active)
+    {
+        isNeedChangeTexture = true;
+        this.id_diapo_active = id_diapo_active;
+    }
+
+    /// <summary>
+    /// Quand un nouveau joueur arrive, il demande au Master de sync l'id_diapo_active via cette fonction
+    /// </summary>
+    [PunRPC]
+    private void RequireSyncDiapo()
+    {
+        if (PhotonNetwork.IsMasterClient)
         {
-            id_diapo_active = (id_diapo_active + 1) % diapo.Count;
-            material.SetTexture("_MainTex", diapo[id_diapo_active]);
+            PhotonView photonView = PhotonView.Get(this);
+            photonView.RPC("SyncDiapo", RpcTarget.All, id_diapo_active);
         }
-        else if (Input.GetKeyUp(KeyCode.I)) //diapo précédente
+        else
         {
-            id_diapo_active = (id_diapo_active - 1) >= 0 ? id_diapo_active - 1 : diapo.Count - 1;
-            material.SetTexture("_MainTex", diapo[id_diapo_active]);
+            Debug.LogError("Un RCP RequireSyncDiapo a été envoyé à quelqu'un d'autre que le MasterClient");
         }
     }
 
@@ -126,13 +190,15 @@ public class SlideController : MonoBehaviour
                             textLogSurDiapo.text = "Téléchargement de la diapositive " + diapo.Count + "/" + linesURL.Count;
 
                             // lag artificiel lor du téléchargement des images pour voir l'affichage
-                            yield return new WaitForSeconds(2);
+                            yield return new WaitForSeconds(0.5f);
 
                         }
                         else
                         {
                             textLogSurDiapo.text = "";
                             isAllDownload = true;
+                            rendererObj.enabled = true;
+                            isNeedChangeTexture = true;
                         }
                     }
                 }
