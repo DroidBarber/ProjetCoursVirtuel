@@ -66,4 +66,15 @@ public class Log_UI : MonoBehaviour
         listeLog.Add(log);
         listeChrono.Add(time);
     }
+
+    /// <summary>Efface tout, à n'utiliser qu'a des fin de test et suprimmer l'utilisation juste après !!!!</summary>
+    public void ForceClear()
+    {
+        listeLog.Clear();
+        listeChrono.Clear();
+#if UNITY_EDITOR
+        Debug.LogWarning("Utilisation de ForceClear dans Log_UI, faites attentions!!!");
+#endif
+
+    }
 }

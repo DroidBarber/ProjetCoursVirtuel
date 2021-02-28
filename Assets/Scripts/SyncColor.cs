@@ -21,14 +21,7 @@ public class SyncColor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (this.gameObject.GetComponent<PhotonView>().IsMine)
-        {
-            this.transform.Translate(Input.GetAxis("Horizontal") * Time.deltaTime * 4, 0, Input.GetAxis("Vertical") * Time.deltaTime * 4);
-        }
-        else
-        {
-            Destroy(this);
-        }
+        
     }
 
     [PunRPC]
