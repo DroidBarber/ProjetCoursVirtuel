@@ -11,7 +11,7 @@ public class Log_UI : MonoBehaviour
     private Text textObj;
     public float tempsaff = 15;
     public GameObject imageBackgroundLog;
-    private bool isActive = true;
+    private bool isActive = false;
 
     // Start is called before the first frame update
     void Awake()

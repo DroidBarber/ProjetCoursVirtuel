@@ -56,12 +56,12 @@ public class SlideController : MonoBehaviour
                 material.SetTexture("_MainTex", null);
             }
         }
-        else if (Input.GetKeyUp(KeyCode.O)) //diapo suivante
+        else if (OVRInput.GetUp(OVRInput.Button.One)) //diapo suivante
         {
             id_diapo_active = (id_diapo_active + 1) % diapo.Count;
             material.SetTexture("_MainTex", diapo[id_diapo_active]);
         }
-        else if (Input.GetKeyUp(KeyCode.I)) //diapo précédente
+        else if (OVRInput.GetUp(OVRInput.Button.Two)) //diapo précédente
         {
             id_diapo_active = (id_diapo_active - 1) >= 0 ? id_diapo_active - 1 : diapo.Count - 1;
             material.SetTexture("_MainTex", diapo[id_diapo_active]);
