@@ -67,7 +67,7 @@ public class SlideController : MonoBehaviour
             material.SetTexture("_MainTex", diapo[id_diapo_active]);
         }
     }
-
+    
     private IEnumerator GetDiapo()
     {
         UnityWebRequest www = UnityWebRequest.Get("https://pastebin.com/raw/8e3DsJ2V");
