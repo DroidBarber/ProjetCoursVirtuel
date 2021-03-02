@@ -31,12 +31,12 @@ public class Network : MonoBehaviourPunCallbacks
         {
 
             // juste pour le test, et le force 
-            logObj.ForceClear();
-            logObj.AjoutLog("BTN A: " + OVRInput.Get(OVRInput.RawButton.A), 1);
+            /*logObj.ForceClear();*/
+            /*logObj.AjoutLog("BTN A: " + OVRInput.Get(OVRInput.RawButton.A), 1);
             logObj.AjoutLog("BTN B: " + OVRInput.Get(OVRInput.RawButton.B), 1);
             logObj.AjoutLog("BTN X: " + OVRInput.Get(OVRInput.RawButton.X), 1);
-            logObj.AjoutLog("BTN Y: " + OVRInput.Get(OVRInput.RawButton.Y), 1);
-            OVRInput.Get(OVRInput.RawAxis2D.LThumbstick);
+            logObj.AjoutLog("BTN Y: " + OVRInput.Get(OVRInput.RawButton.Y), 1);*/
+            
 
         }
         
@@ -44,7 +44,7 @@ public class Network : MonoBehaviourPunCallbacks
     }
     public override void OnJoinedRoom()
     {
-        logObj.AjoutLog("Connecté à la room: " + PhotonNetwork.CurrentRoom.Name, 5);
+        logObj.AjoutLog("Connecté à la room: " + PhotonNetwork.CurrentRoom.Name, 50);
 
         GameObject p = PhotonNetwork.Instantiate(playerPrefab.name, playerPrefab.transform.position, Quaternion.identity);
         p.GetComponent<SyncPosPlayer>().setup(playerOVR);

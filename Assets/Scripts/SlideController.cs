@@ -74,12 +74,12 @@ public class SlideController : MonoBehaviourPunCallbacks
                 {
                     rendererObj.enabled = !rendererObj.enabled; //change l'état du diapo (activé ou non)
                 }
-                else if (Input.GetKeyUp(KeyCode.O) || OVRInput.Get(OVRInput.RawButton.X)) //diapo suivante
+                else if (Input.GetKeyUp(KeyCode.O) || OVRInput.GetUp(OVRInput.RawButton.X)) //diapo suivante
                 {
 
                     DiapoNext();
                 }
-                else if (Input.GetKeyUp(KeyCode.I) || OVRInput.Get(OVRInput.RawButton.Y)) //diapo précédente
+                else if (Input.GetKeyUp(KeyCode.I) || OVRInput.GetUp(OVRInput.RawButton.Y)) //diapo précédente
                 {
                     DiapoBack();
                 }

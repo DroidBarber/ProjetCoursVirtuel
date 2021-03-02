@@ -17,6 +17,7 @@ public class SyncPosPlayer : MonoBehaviour
             Destroy(this);
         else
             this.GetComponent<Renderer>().enabled = false;
+        
     }
 
     // Update is called once per frame
@@ -25,8 +26,11 @@ public class SyncPosPlayer : MonoBehaviour
         if (isSetup)
         {
             this.transform.position = player.transform.position;
+            this.transform.rotation = player.transform.rotation;
             m_leftHandAnchor.transform.position = leftHandAnchor.transform.position;
+            m_leftHandAnchor.transform.rotation = leftHandAnchor.transform.rotation;
             m_rightHandAnchor.transform.position = rightHandAnchor.transform.position;
+            m_rightHandAnchor.transform.rotation = rightHandAnchor.transform.rotation;
         }
     }
     public void setup(GameObject player)
