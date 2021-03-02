@@ -56,15 +56,17 @@ public class SlideController : MonoBehaviour
                 material.SetTexture("_MainTex", null);
             }
         }
-        else if (OVRInput.GetUp(OVRInput.Button.One)) //diapo suivante
+        else if (OVRInput.GetUp(OVRInput.Button.One) || Input.GetKeyUp(KeyCode.O)) //diapo suivante
         {
             id_diapo_active = (id_diapo_active + 1) % diapo.Count;
             material.SetTexture("_MainTex", diapo[id_diapo_active]);
+            logObj.AjoutLog("Id_diapo_active : " + id_diapo_active, speedAutoChangeSlide);
         }
         else if (OVRInput.GetUp(OVRInput.Button.Two)) //diapo précédente
         {
             id_diapo_active = (id_diapo_active - 1) >= 0 ? id_diapo_active - 1 : diapo.Count - 1;
             material.SetTexture("_MainTex", diapo[id_diapo_active]);
+            logObj.AjoutLog("Id_diapo_active : " + id_diapo_active, speedAutoChangeSlide);
         }
     }
     
@@ -144,14 +146,14 @@ public class SlideController : MonoBehaviour
         //execute la fonction uniquement si le tableau est activé et si le diapo est chargé
         if (!rendererObj.enabled || diapo.Count <= 0) return;
 
-        if (isAutoChangeSlide && isAllDownload)
-        {
-            timer += Time.fixedDeltaTime;
-            if (timer < speedAutoChangeSlide) return;
-            id_diapo_active = (id_diapo_active + 1) % diapo.Count; //index diapo suivante
-            material.SetTexture("_MainTex", diapo[id_diapo_active]); //charge la diapo suivante
-            timer -= speedAutoChangeSlide;
-            logObj.AjoutLog("Id_diapo_active : " + id_diapo_active, speedAutoChangeSlide);// affichage des logs dans le canvas
-        }
+        //if (isAutoChangeSlide && isAllDownload)
+        //{
+        //    timer += Time.fixedDeltaTime;
+        //    if (timer < speedAutoChangeSlide) return;
+        //    id_diapo_active = (id_diapo_active + 1) % diapo.Count; //index diapo suivante
+        //    material.SetTexture("_MainTex", diapo[id_diapo_active]); //charge la diapo suivante
+        //    timer -= speedAutoChangeSlide;
+        //    logObj.AjoutLog("Id_diapo_active : " + id_diapo_active, speedAutoChangeSlide);// affichage des logs dans le canvas
+        //}
     }
 }
