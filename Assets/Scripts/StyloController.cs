@@ -89,4 +89,14 @@ public class StyloController : MonoBehaviourPunCallbacks
             }
         }
     }
+
+    public bool isGrab()
+    {
+        return id_player_owner != "";
+    }
+
+    public string get_id_player_owner()
+    {
+        return id_player_owner;
+    }
 }
