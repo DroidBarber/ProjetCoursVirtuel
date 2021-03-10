@@ -507,7 +507,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2015248, guid: ce816f2e6abb0504092c23ed9b970dfd, type: 3}
       propertyPath: m_CullingMask.m_Bits
-      value: 791
+      value: 1815
       objectReference: {fileID: 0}
     - target: {fileID: 11400010, guid: ce816f2e6abb0504092c23ed9b970dfd, type: 3}
       propertyPath: useProfileData
@@ -2030,7 +2030,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fa28aec26bfe2f4fa0a231bdae775df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isShowDebugLogInUnity: 0
+  isShowDebugLogInUnity: 1
   isAutoJoinOrCreateRoom: 1
   Version: 1
   MaxPlayers: 20
