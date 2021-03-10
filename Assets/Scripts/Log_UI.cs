@@ -11,7 +11,7 @@ public class Log_UI : MonoBehaviour
     private Text textObj;
     public float tempsaff = 15;
     public GameObject imageBackgroundLog;
-    private bool isActive = true;
+    public bool isActive = true;
 
     // Start is called before the first frame update
     void Awake()
@@ -31,7 +31,7 @@ public class Log_UI : MonoBehaviour
     {
         this.gameObject.GetComponent<Text>().text = "";
 
-        // Supprimer les logs qui sont "périmé" pour leur temps d'affichage
+        // Supprimer les logs qui sont "périmés" pour leur temps d'affichage
         for (int i = listeLog.Count - 1; i >= 0; i--)
         {
             listeChrono[i] -= Time.deltaTime;
@@ -73,10 +73,9 @@ public class Log_UI : MonoBehaviour
         listeChrono.Add(time);
     }
 
-
-    public void changeisActive()
+    public void setisActive(bool val)
     {
-        this.isActive = !this.isActive;
+        this.isActive = val;
     }
 
 }
