@@ -8,11 +8,12 @@ public class TableauController : MonoBehaviourPunCallbacks
 {
     private Texture2D texture;
     public GameObject coinHautGauche, coinHautDroite, coinBasGauche, coinBasDroite;
+    private int tailleEcriture = 6;
 
     // Start is called before the first frame update
     void Awake()
     {
-        texture = new Texture2D(300, 300);
+        texture = new Texture2D(2000, 1200);
         this.gameObject.GetComponent<Renderer>().material.SetTexture("_MainTex", texture);
     }
 
@@ -42,13 +43,13 @@ public class TableauController : MonoBehaviourPunCallbacks
         texture.SetPixel((int)pos.x, (int)pos.y, c);
 
         // pour faire de l'épaisseur
-        /*for (int x = -40; x < 40; x++)
+        for (int x = -tailleEcriture; x < tailleEcriture; x++)
         {
-            for (int y = -40; y < 40; y++)
+            for (int y = -tailleEcriture; y < tailleEcriture; y++)
             {
                 texture.SetPixel((int)pos.x+x, (int)pos.y+y, c);
             }
-        }*/
+        }
         texture.Apply();
     }
 
@@ -84,6 +85,14 @@ public class TableauController : MonoBehaviourPunCallbacks
     {
         Color c = new Color(color.x, color.y, color.z, 1);
         texture.SetPixel(posX, posY, c);
+        for (int x = -tailleEcriture; x < tailleEcriture; x++)
+        {
+            for (int y = -tailleEcriture; y < tailleEcriture; y++)
+            {
+                texture.SetPixel((int)posX + x, (int)posY + y, c);
+            }
+        }
+        texture.Apply();
     }
 
 }

@@ -81,7 +81,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   c: {r: 0, g: 0, b: 0, a: 0}
-  distanceDEcriture: 0.5
+  distanceDEcriture: 0.2
+  log_ui: {fileID: 0}
 --- !u!114 &5263800562573393120
 MonoBehaviour:
   m_ObjectHideFlags: 0
