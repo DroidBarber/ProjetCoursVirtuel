@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
+//using System.Numerics;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -20,7 +20,9 @@ public class SlideController : MonoBehaviour
     private bool isAllDownload = false;
     public Log_UI logObj;
     public TextMeshProUGUI textLogSurDiapo;
-
+    public RectTransform BarreChargementFull;
+    public RectTransform barreChargement;
+    private float xBarreChargement;
     private void Awake()
     {
         rendererObj = this.GetComponent<Renderer>(); // Récuperation du renderer
@@ -34,8 +36,16 @@ public class SlideController : MonoBehaviour
 
         if (!textLogSurDiapo)
             Debug.LogError("logObj non assigné");
+        if(!BarreChargementFull)
+            Debug.LogError("logObj non assigné");
+        if (!barreChargement)
+            Debug.LogError("logObj non assigné");
 
-    }
+        barreChargement.anchorMax = new Vector2((float)0.1, (float)0.2);
+        //BarreChargement.rect.width = 0;
+        
+        xBarreChargement = (float)0.1; //0.1f
+}
 
     void Start()
     {
@@ -96,6 +106,8 @@ public class SlideController : MonoBehaviour
                 StringSplitOptions.RemoveEmptyEntries));
 
             int nbDiapo = linesURL.Count;
+            float longueurDiapo = (float)0.8;
+            float avancementchargement = longueurDiapo / nbDiapo;
 
             // Pour chaque URL d'image, on la télécharge et la range dans la variable diapo
             foreach (string url in linesURL)
@@ -127,8 +139,13 @@ public class SlideController : MonoBehaviour
                         {
                             textLogSurDiapo.text = "Téléchargement de la diapositive " + diapo.Count + "/" + linesURL.Count;
 
+                            //Avancement de la barre de téléchargement
+                            xBarreChargement += avancementchargement; 
+                            barreChargement.anchorMax = new Vector2(xBarreChargement, (float)0.2);
+                            //modifier le witdh
+
                             // lag artificiel lor du téléchargement des images pour voir l'affichage
-                            yield return new WaitForSeconds(2);
+                            yield return new WaitForSeconds(5);
 
                         }
                         else
