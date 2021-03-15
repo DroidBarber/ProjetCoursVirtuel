@@ -237,7 +237,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 38890583}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8f1a9a1d119a5944aacfb87d1ec283a2, type: 3}
   m_Name: 
@@ -521,7 +521,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 249651308}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8e7ff1cdf4c4e74db00c3684108bc9a, type: 3}
   m_Name: 
@@ -792,6 +792,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 4066329667633490051, guid: fd49049a1ffdc0f43be3687ed629dc87,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4066329667633490060, guid: fd49049a1ffdc0f43be3687ed629dc87,
         type: 3}
       propertyPath: m_Enabled
@@ -1031,7 +1036,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &836581672
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2773,9 +2778,9 @@ MonoBehaviour:
   isAutoChangeSlide: 1
   speedAutoChangeSlide: 2
   logObj: {fileID: 1450634328}
-  textLogSurDiapo: {fileID: 0}
-  BarreChargementFull: {fileID: 0}
-  barreChargement: {fileID: 0}
+  textLogSurDiapo: {fileID: 2134708101}
+  BarreChargementFull: {fileID: 1889506559}
+  barreChargement: {fileID: 197144574}
 --- !u!1 &1889506558
 GameObject:
   m_ObjectHideFlags: 0

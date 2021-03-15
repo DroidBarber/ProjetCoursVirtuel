@@ -66,13 +66,13 @@ public class SlideController : MonoBehaviour
                 material.SetTexture("_MainTex", null);
             }
         }
-        else if (OVRInput.GetUp(OVRInput.Button.One) || Input.GetKeyUp(KeyCode.O)) //diapo suivante
+        else if (OVRInput.GetUp(OVRInput.Button.One) && isAllDownload) //diapo suivante
         {
             id_diapo_active = (id_diapo_active + 1) % diapo.Count;
             material.SetTexture("_MainTex", diapo[id_diapo_active]);
             logObj.AjoutLog("Id_diapo_active : " + id_diapo_active, speedAutoChangeSlide);
         }
-        else if (OVRInput.GetUp(OVRInput.Button.Two)) //diapo précédente
+        else if (OVRInput.GetUp(OVRInput.Button.Two) && isAllDownload) //diapo précédente
         {
             id_diapo_active = (id_diapo_active - 1) >= 0 ? id_diapo_active - 1 : diapo.Count - 1;
             material.SetTexture("_MainTex", diapo[id_diapo_active]);
@@ -152,6 +152,9 @@ public class SlideController : MonoBehaviour
                         {
                             textLogSurDiapo.text = "";
                             isAllDownload = true;
+                            material.SetTexture("_MainTex", diapo[0]);
+                            barreChargement.gameObject.SetActive(false);
+                            BarreChargementFull.gameObject.SetActive(false);
                         }
                     }
                 }
