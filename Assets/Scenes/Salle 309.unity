@@ -751,7 +751,7 @@ PrefabInstance:
     - target: {fileID: 4066329667633490062, guid: fd49049a1ffdc0f43be3687ed629dc87,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.050000064
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 4066329667633490062, guid: fd49049a1ffdc0f43be3687ed629dc87,
         type: 3}
@@ -2665,8 +2665,8 @@ MonoBehaviour:
   speedAutoChangeSlide: 2
   logObj: {fileID: 1450634328}
   textLogSurDiapo: {fileID: 1421165034}
-  BarreChargementFull: {fileID: 660195194}
-  barreChargement: {fileID: 1409461935}
+  BarreChargementFull: {fileID: 0}
+  barreChargement: {fileID: 0}
 --- !u!1 &1875200959
 GameObject:
   m_ObjectHideFlags: 0
@@ -2698,8 +2698,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1421165033}
-  - {fileID: 660195194}
-  - {fileID: 1409461935}
   m_Father: {fileID: 1801807438}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 90.00001, z: -90.00001}
