@@ -11,6 +11,7 @@ public class Log_UI : MonoBehaviour
     private Text textObj;
     public float tempsaff = 15;
     public GameObject imageBackgroundLog;
+    public bool isActive = true;
 
     // Start is called before the first frame update
     void Awake()
@@ -30,7 +31,7 @@ public class Log_UI : MonoBehaviour
     {
         this.gameObject.GetComponent<Text>().text = "";
 
-        // Supprimer les logs qui sont "périmé" pour leur temps d'affichage
+        // Supprimer les logs qui sont "périmés" pour leur temps d'affichage
         for (int i = listeLog.Count - 1; i >= 0; i--)
         {
             listeChrono[i] -= Time.deltaTime;
@@ -41,14 +42,19 @@ public class Log_UI : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < listeLog.Count; i++)
+        if (isActive)
         {
-            textObj.text += listeLog[i];
-            if(i < listeLog.Count-1) // si ce n'est pas le dernier log, on retourne à la ligne
+
+            for (int i = 0; i < listeLog.Count; i++)
             {
-                textObj.text += "\n";
+                textObj.text += listeLog[i];
+                if (i < listeLog.Count - 1) // si ce n'est pas le dernier log, on retourne à la ligne
+                {
+                    textObj.text += "\n";
+                }
             }
         }
+        
 
         if (textObj.text == "") // si aucun log, on désactive l'image background
             imageBackgroundLog.SetActive(false);
@@ -66,4 +72,21 @@ public class Log_UI : MonoBehaviour
         listeLog.Add(log);
         listeChrono.Add(time);
     }
+
+    /// <summary>Efface tout, à n'utiliser qu'a des fin de test et suprimmer l'utilisation juste après !!!!</summary>
+    public void ForceClear()
+    {
+        listeLog.Clear();
+        listeChrono.Clear();
+#if UNITY_EDITOR
+        Debug.LogWarning("Utilisation de ForceClear dans Log_UI, faites attentions!!!");
+#endif
+
+    }
+
+    public void setisActive(bool val)
+    {
+        this.isActive = val;
+    }
+
 }
