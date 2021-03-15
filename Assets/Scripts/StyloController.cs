@@ -80,15 +80,15 @@ public class StyloController : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         // problème ici
-        Debug.LogError("OnPlayerLeftRoom, is master=" + PhotonNetwork.IsMasterClient + " id same=" + otherPlayer.UserId.Equals(id_player_owner));
-        if (otherPlayer.UserId.Equals(id_player_owner))
-        {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                this.GetComponent<PhotonView>().RPC("GrabEnd", RpcTarget.All);
-                Debug.LogError("GrabEnd en RCP all");
-            }
-        }
+        //Debug.LogError("OnPlayerLeftRoom, is master=" + PhotonNetwork.IsMasterClient + " id same=" + otherPlayer.UserId.Equals(id_player_owner));
+        //if (otherPlayer.UserId.Equals(id_player_owner))
+        //{
+        //    if (PhotonNetwork.IsMasterClient)
+        //    {
+        //        this.GetComponent<PhotonView>().RPC("GrabEnd", RpcTarget.All);
+        //        Debug.LogError("GrabEnd en RCP all");
+        //    }
+        //}
     }
 
     public bool isGrab()
