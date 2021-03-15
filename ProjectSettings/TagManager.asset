@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Stylo
+  - Tableau
   layers:
   - Default
   - TransparentFX
@@ -15,6 +17,9 @@ TagManager:
   - 
   - LayerUi
   - LayerMenu
+  - Ground
+  - Tableau
+  - 
   - 
   - 
   - 

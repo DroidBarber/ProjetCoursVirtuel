@@ -434,7 +434,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: ce816f2e6abb0504092c23ed9b970dfd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: ce816f2e6abb0504092c23ed9b970dfd, type: 3}
       propertyPath: m_LocalPosition.z
@@ -483,6 +483,10 @@ PrefabInstance:
     - target: {fileID: 11400010, guid: ce816f2e6abb0504092c23ed9b970dfd, type: 3}
       propertyPath: useProfileData
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 14300000, guid: ce816f2e6abb0504092c23ed9b970dfd, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 20131489337305086, guid: ce816f2e6abb0504092c23ed9b970dfd,
         type: 3}
@@ -1378,6 +1382,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7664280046006328952, guid: 45ca7073dc1897d4cbe97b5b36e429f7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: -7630654138318004453, guid: 45ca7073dc1897d4cbe97b5b36e429f7,
         type: 3}
@@ -2775,7 +2784,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   diapo: []
-  isAutoChangeSlide: 1
+  isAutoChangeSlide: 0
+  isOnlyMasterClientCanChangeDiapo: 1
   speedAutoChangeSlide: 2
   logObj: {fileID: 1450634328}
   textLogSurDiapo: {fileID: 2134708101}
