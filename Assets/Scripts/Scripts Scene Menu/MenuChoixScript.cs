@@ -10,6 +10,7 @@ public class MenuChoixScript : MonoBehaviour
     public GameObject EventSystem;
     public GameObject CameraRig;
     public GameObject Curseur;
+    public Log_UI logObj;
 
     void Start()
     {
@@ -18,11 +19,12 @@ public class MenuChoixScript : MonoBehaviour
         CameraRig.GetComponent<UnityEngine.EventSystems.OVRPhysicsRaycaster>().enabled = true;
         Curseur.SetActive(true);
     }
-
+      
     // Update is called once per frame
     void Update()
     {
-
+       
+        
     }
 
     void FixedUpdate()
