@@ -35,7 +35,10 @@ public class StyloController : MonoBehaviourPunCallbacks
     {
         id_player_owner = "";
         this.gameObject.GetComponent<Collider>().isTrigger = false;
-        this.gameObject.AddComponent<Rigidbody>();
+        if (!this.gameObject.GetComponent<Rigidbody>())
+        {
+            this.gameObject.AddComponent<Rigidbody>();
+        }
 
         Log_UI log_ui = GameObject.Find("Log_UI").GetComponent<Log_UI>();
         log_ui.AjoutLog("grabend", 15);
@@ -80,15 +83,15 @@ public class StyloController : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         // problème ici
-        //Debug.LogError("OnPlayerLeftRoom, is master=" + PhotonNetwork.IsMasterClient + " id same=" + otherPlayer.UserId.Equals(id_player_owner));
-        //if (otherPlayer.UserId.Equals(id_player_owner))
-        //{
-        //    if (PhotonNetwork.IsMasterClient)
-        //    {
-        //        this.GetComponent<PhotonView>().RPC("GrabEnd", RpcTarget.All);
-        //        Debug.LogError("GrabEnd en RCP all");
-        //    }
-        //}
+        //Debug.LogWarning("OnPlayerLeftRoom, is master=" + PhotonNetwork.IsMasterClient + " id same=" + otherPlayer.UserId.Equals(id_player_owner));
+        /*if (otherPlayer.UserId.Equals(id_player_owner))
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                this.GetComponent<PhotonView>().RPC("GrabEnd", RpcTarget.All);
+                Debug.LogError("GrabEnd en RCP all");
+            }
+        }*/
     }
 
     public bool isGrab()

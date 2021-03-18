@@ -2709,6 +2709,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isShowDebugLogInUnity: 1
   isAutoJoinOrCreateRoom: 1
+  roomAuto2: 1
   Version: 1
   MaxPlayers: 20
   playerTTL: -1
