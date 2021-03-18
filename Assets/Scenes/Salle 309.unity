@@ -1396,6 +1396,7 @@ GameObject:
   m_Component:
   - component: {fileID: 730972845}
   - component: {fileID: 730972844}
+  - component: {fileID: 730972846}
   m_Layer: 0
   m_Name: Menu
   m_TagString: Untagged
@@ -1433,6 +1434,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &730972846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 730972843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7741490cb6235434a810c90c18a87f51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  logObj: {fileID: 1450634328}
+  s309: {fileID: 1975704290}
+  s3092: {fileID: 869846331}
 --- !u!1 &836581671
 GameObject:
   m_ObjectHideFlags: 0
@@ -4430,6 +4446,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d58e75c07d58794aada1bb082ab7809, type: 3}
+--- !u!1 &1975704290 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 913210373293906793, guid: 5d58e75c07d58794aada1bb082ab7809,
+    type: 3}
+  m_PrefabInstance: {fileID: 1975704289}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2013408811
 GameObject:
   m_ObjectHideFlags: 0
