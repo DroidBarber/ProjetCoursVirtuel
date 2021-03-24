@@ -47,7 +47,7 @@ public class GrabStylo : MonoBehaviour
                     if (lastGrab + 0.05f < Time.realtimeSinceStartup)
                     {
                         styloGrab = other.gameObject;
-                        styloGrab.GetComponent<PhotonView>().RequestOwnership();
+                        //styloGrab.GetComponent<PhotonView>().RequestOwnership();
                         deltaPos = new Vector3(styloGrab.transform.position.x - this.transform.position.x,
                                                 styloGrab.transform.position.y - this.transform.position.y,
                                                 styloGrab.transform.position.z - this.transform.position.z);
