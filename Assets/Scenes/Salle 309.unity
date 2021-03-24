@@ -2615,7 +2615,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   logObj: {fileID: 1450634328}
-  playerPrefab: {fileID: 8943783474794911921, guid: c4adc5c8c8808554c8d85997a8e96b19,
+  playerPrefab: {fileID: 6828068362865258761, guid: be8af7272c3bc0147823e72c5d69dbf0,
     type: 3}
   playerOVR: {fileID: 249651307}
 --- !u!4 &1003131800
