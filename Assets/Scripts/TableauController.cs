@@ -8,7 +8,7 @@ public class TableauController : MonoBehaviourPunCallbacks
 {
     private Texture2D texture;
     public GameObject coinHautGauche, coinHautDroite, coinBasGauche, coinBasDroite;
-    private int tailleEcriture = 6;
+    private int tailleEcriture = 6, pointCalculx, pointCalculy;
     private List<Vector2> lstPoint = new List<Vector2>();
 
     // Start is called before the first frame update
@@ -58,15 +58,27 @@ public class TableauController : MonoBehaviourPunCallbacks
     public void WriteEnd()
     {
         Debug.LogError("WriteEnd " + lstPoint.Count);
-        if (lstPoint.Count >= 4)
+        if (lstPoint.Count >= 4) 
         {
-            for (int i = 0; i < lstPoint.Count - 3; i++)
+            for (int i = 0; i < lstPoint.Count - 3; i+=3)
             {
                 for (float u = 0; u <= 1; u += 0.01f)
                 {
                     Vector2 newPos;
-                    newPos.x = lstPoint[i].x * Mathf.Pow(1 - u, 3) + 3 * lstPoint[i + 1].x * u * Mathf.Pow(1 - u, 2) + 3 * lstPoint[i + 2].x * u * u * (1 - u) + lstPoint[i + 3].x * u * u * u;
-                    newPos.y = lstPoint[i].y * Mathf.Pow(1 - u, 3) + 3 * lstPoint[i + 1].y * u * Mathf.Pow(1 - u, 2) + 3 * lstPoint[i + 2].y * u * u * (1 - u) + lstPoint[i + 3].y * u * u * u;
+                    //pointcalcul x et y, modif listPoint[i+1] à partir du deuxième patch, i > 0
+                    if(i == 0)
+                    {
+                        pointCalculx = (int)lstPoint[i + 1].x;
+                        pointCalculy = (int)lstPoint[i + 1].y;
+                    }
+                    else
+                    {
+                        //calcul des coefficients de colinéarité pour le raccordement de la courbe
+                        pointCalculx = (int)(2 * lstPoint[i].x - lstPoint[i - 1].x);
+                        pointCalculy = (int)(2 * lstPoint[i].y - lstPoint[i - 1].y);
+                    }
+                    newPos.x = lstPoint[i].x * Mathf.Pow(1 - u, 3) + 3 * pointCalculx * u * Mathf.Pow(1 - u, 2) + 3 * lstPoint[i + 2].x * u * u * (1 - u) + lstPoint[i + 3].x * u * u * u;
+                    newPos.y = lstPoint[i].y * Mathf.Pow(1 - u, 3) + 3 * pointCalculy * u * Mathf.Pow(1 - u, 2) + 3 * lstPoint[i + 2].y * u * u * (1 - u) + lstPoint[i + 3].y * u * u * u;
 
                     //newPos.x = lstPoint[i].x * Mathf.Pow(1 - u, 2) + 2 * lstPoint[i + 1].x * u * (1 - u) + lstPoint[i + 2].x * Mathf.Pow(u, 2);
                     //newPos.y = lstPoint[i].y * Mathf.Pow(1 - u, 2) + 2 * lstPoint[i + 1].y * u * (1 - u) + lstPoint[i + 2].y * Mathf.Pow(u, 2);

@@ -98,7 +98,7 @@ public class ConnectJoinRoom : MonoBehaviourPunCallbacks
         if (playerTTL >= 0)
             roomOptions.PlayerTtl = playerTTL;
         TypedLobby typedLobby = new TypedLobby("3iL",  LobbyType.Default);
-        PhotonNetwork.JoinOrCreateRoom("RoomAutoJoin20000", roomOptions, typedLobby);
+        PhotonNetwork.JoinOrCreateRoom("RoomAutoJoin666", roomOptions, typedLobby);
     }
      
 }
