@@ -8,7 +8,7 @@ public class TableauController : MonoBehaviourPunCallbacks
 {
     private Texture2D texture;
     public GameObject coinHautGauche, coinHautDroite, coinBasGauche, coinBasDroite;
-    private int tailleEcriture = 6, pointCalculx, pointCalculy, pointsavex, pointsavey;
+    private int tailleEcriture = 6, pointCalculx, pointCalculy;
     private List<Vector2> lstPoint = new List<Vector2>();
 
     // Start is called before the first frame update
@@ -44,7 +44,7 @@ public class TableauController : MonoBehaviourPunCallbacks
         //texture.SetPixel((int)pos.x, (int)pos.y, c);
         pos.x = (int)pos.x;
         pos.y = (int)pos.y;
-        if (lstPoint.Count >= 1 && Vector2.Distance(lstPoint[lstPoint.Count - 1], pos) > tailleEcriture)
+        if (lstPoint.Count >= 1 && Vector2.Distance(lstPoint[lstPoint.Count - 1], pos) > tailleEcriture*2)
             lstPoint.Add(new Vector2((int)pos.x, (int)pos.y));
         if (lstPoint.Count == 0)
             lstPoint.Add(new Vector2((int)pos.x, (int)pos.y));
@@ -71,19 +71,6 @@ public class TableauController : MonoBehaviourPunCallbacks
                         pointCalculx = (int)lstPoint[i + 1].x;
                         pointCalculy = (int)lstPoint[i + 1].y;
 
-                        //pointCalculx = (int)lstPoint[1].x;
-                        //pointCalculy = (int)lstPoint[1].y;
-
-                        //pointCalculx = (int)lstPoint[2].x;
-                        //pointCalculy = (int)lstPoint[2].y;
-
-                        //pointsavex = (int)lstPoint[i + 1].x;
-                        //pointsavey = (int)lstPoint[i + 1].y;
-
-                        //pointsavex = (int)lstPoint[2].x;
-                        //pointsavey = (int)lstPoint[2].y;
-
-                        //  compteur++;
                     }
                     else
                     {
@@ -91,34 +78,15 @@ public class TableauController : MonoBehaviourPunCallbacks
                         pointCalculx = (int)(2 * lstPoint[i].x - lstPoint[i - 1].x);
                         pointCalculy = (int)(2 * lstPoint[i].y - lstPoint[i - 1].y);
 
-                        //pointCalculx = (int)(2 * lstPoint[i].x - pointsavex);
-                        //pointCalculy = (int)(2 * lstPoint[i].y - pointsavey);
-
-                        //pointCalculx = (int)(2 * lstPoint[0].x - pointsavex);
-                        //pointCalculy = (int)(2 * lstPoint[0].y - pointsavey);
-
-                        //pointsavex = pointCalculx;
-                        //pointsavey = pointCalculy;
-
-                        //pointsavex = (int)lstPoint[2].x;
-                        //pointsavey = (int)lstPoint[2].y;
                     }
 
                     newPos.x = lstPoint[i].x * Mathf.Pow(1 - u, 3) + 3 * pointCalculx * u * Mathf.Pow(1 - u, 2) + 3 * lstPoint[i + 2].x * u * u * (1 - u) + lstPoint[i + 3].x * u * u * u;
                     newPos.y = lstPoint[i].y * Mathf.Pow(1 - u, 3) + 3 * pointCalculy * u * Mathf.Pow(1 - u, 2) + 3 * lstPoint[i + 2].y * u * u * (1 - u) + lstPoint[i + 3].y * u * u * u;
 
-                    //newPos.x = lstPoint[0].x * Mathf.Pow(1 - u, 3) + 3 * pointCalculx * u * Mathf.Pow(1 - u, 2) + 3 * lstPoint[2].x * u * u * (1 - u) + lstPoint[3].x * u * u * u;
-                    //newPos.y = lstPoint[0].y * Mathf.Pow(1 - u, 3) + 3 * pointCalculy * u * Mathf.Pow(1 - u, 2) + 3 * lstPoint[2].y * u * u * (1 - u) + lstPoint[3].y * u * u * u;
-
-
-                    //newPos.x = lstPoint[i%3].x * Mathf.Pow(1 - u, 3) + 3 * pointCalculx * u * Mathf.Pow(1 - u, 2) + 3 * lstPoint[(i + 2)%3].x * u * u * (1 - u) + lstPoint[(i + 3)%3].x * u * u * u;
-                    //newPos.y = lstPoint[i%3].y * Mathf.Pow(1 - u, 3) + 3 * pointCalculy * u * Mathf.Pow(1 - u, 2) + 3 * lstPoint[(i + 2)%3].y * u * u * (1 - u) + lstPoint[(i + 3)%3].y * u * u * u;
-
                     for (int x = -tailleEcriture; x < tailleEcriture; x++)
                     {
                         for (int y = -tailleEcriture; y < tailleEcriture; y++)
                         {
-                            //if (Mathf.Sqrt(Mathf.Pow(newPos.x - x, 2) + Mathf.Pow(newPos.y - y, 2)) < tailleEcriture)
                             if (Vector2.Distance(newPos, new Vector2(newPos.x + x, newPos.y + y)) < tailleEcriture)
                             {
                                 texture.SetPixel((int)newPos.x + x, (int)newPos.y + y, c);
@@ -131,9 +99,6 @@ public class TableauController : MonoBehaviourPunCallbacks
 
             }
             texture.Apply();
-            //lstPoint.RemoveAt(0);
-            //lstPoint.RemoveAt(0);
-            //lstPoint.RemoveAt(0);
 
         }
     }
