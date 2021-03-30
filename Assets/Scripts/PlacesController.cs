@@ -103,9 +103,6 @@ public class PlacesController : MonoBehaviourPunCallbacks
     }
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            PhotonView.Get(this).RPC("libererPlaceRPC", RpcTarget.All, otherPlayer.UserId);
-        }
+        libererPlace(otherPlayer.UserId);
     }
 }
