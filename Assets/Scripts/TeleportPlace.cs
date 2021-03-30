@@ -16,7 +16,8 @@ public class TeleportPlace : MonoBehaviour
             {
                 PhotonView.Get(placesController).RPC("reserverPlace", RpcTarget.MasterClient, indexPlace,
                     PhotonNetwork.NetworkingClient.UserId);
-                indexPlace++;
+                indexPlace = (indexPlace+1) % (placesController.nbRangeesGauche * placesController.nbChaisesGauche +
+                                placesController.nbRangeesDroite * placesController.nbChaisesDroite);
             }
         }
     }
