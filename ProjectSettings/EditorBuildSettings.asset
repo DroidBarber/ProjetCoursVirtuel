@@ -14,12 +14,15 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Oculus/VR/Scenes/UI.unity
     guid: 1f4d3ae64a10d434db219de8b14348e1
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SceneMenu.unity
     guid: fd56c762b6c06c74e8c6913f9e089ec5
   - enabled: 0
     path: Assets/Scenes/SceneTest.unity
     guid: 5dd355bb8660e764289763ce591b26ba
+  - enabled: 1
+    path: Assets/Scenes/SceneTest 2.unity
+    guid: e3d0cbc0982f1de4e8fe12acea08fc47
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: f8ed3f8cd91789e47bd6f7e31241e92e,
       type: 2}

@@ -10,11 +10,7 @@ public class MenuControler : MonoBehaviour
     public GameObject EventSystem;
     public GameObject CameraRig;
     public GameObject Curseur;
-
-
-  
-
-   
+ 
     void Start()
     {
     }
@@ -30,6 +26,8 @@ public class MenuControler : MonoBehaviour
             CameraRig.GetComponent<UnityEngine.EventSystems.OVRPhysicsRaycaster>().enabled = !CameraRig.GetComponent<UnityEngine.EventSystems.OVRPhysicsRaycaster>().enabled;
             Curseur.SetActive(!Curseur.activeSelf);
         }
+
+      
     }
 
     void FixedUpdate()
