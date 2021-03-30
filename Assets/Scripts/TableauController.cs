@@ -8,7 +8,7 @@ public class TableauController : MonoBehaviourPunCallbacks
 {
     private Texture2D texture;
     public GameObject coinHautGauche, coinHautDroite, coinBasGauche, coinBasDroite;
-    private int tailleEcriture = 6, pointCalculx, pointCalculy, pointsavex, pointsavey, compteur;
+    private int tailleEcriture = 6, pointCalculx, pointCalculy, pointsavex, pointsavey;
     private List<Vector2> lstPoint = new List<Vector2>();
 
     // Start is called before the first frame update
@@ -42,7 +42,12 @@ public class TableauController : MonoBehaviourPunCallbacks
 
         //Debug.Log((int)pos.x + "   " + (int)pos.y);
         //texture.SetPixel((int)pos.x, (int)pos.y, c);
-        lstPoint.Add(new Vector2((int)pos.x, (int)pos.y));
+        pos.x = (int)pos.x;
+        pos.y = (int)pos.y;
+        if (lstPoint.Count >= 1 && Vector2.Distance(lstPoint[lstPoint.Count - 1], pos) > tailleEcriture)
+            lstPoint.Add(new Vector2((int)pos.x, (int)pos.y));
+        if (lstPoint.Count == 0)
+            lstPoint.Add(new Vector2((int)pos.x, (int)pos.y));
 
         // pour faire de l'épaisseur
         /*for (int x = -tailleEcriture; x < tailleEcriture; x++)
@@ -52,13 +57,12 @@ public class TableauController : MonoBehaviourPunCallbacks
                 texture.SetPixel((int)pos.x + x, (int)pos.y + y, c);
             }
         }*/
-        //compteur = 0;
         if (lstPoint.Count >= 4)
-            //Debug.Log(lstPoint.Count);
+        //Debug.Log(lstPoint.Count);
         {
             for (int i = 0; i < lstPoint.Count - 3; i += 3) //changer valeurs boucle ?
             {
-                for (float u = 0; u <= 1; u += 0.01f)
+                for (float u = 0; u <= 1; u += 0.0105f)
                 {
                     Vector2 newPos;
                     //pointcalcul x et y, modif listPoint[i+1] à partir du deuxième patch, i > 0
@@ -79,7 +83,7 @@ public class TableauController : MonoBehaviourPunCallbacks
                         //pointsavex = (int)lstPoint[2].x;
                         //pointsavey = (int)lstPoint[2].y;
 
-                    //  compteur++;
+                        //  compteur++;
                     }
                     else
                     {
@@ -136,7 +140,14 @@ public class TableauController : MonoBehaviourPunCallbacks
 
     public void WriteEnd()
     {
-            lstPoint.Clear();
+        this.GetComponent<PhotonView>().RPC("WriteEndRPC", RpcTarget.Others);
+        lstPoint.Clear();
+    }
+
+    [PunRPC]
+    public void WriteEndRPC()
+    {
+        lstPoint.Clear();
     }
 
     public override void OnJoinedRoom()
@@ -183,15 +194,53 @@ public class TableauController : MonoBehaviourPunCallbacks
     [PunRPC]
     public void UpdateWrite(int posX, int posY, Vector3 color)
     {
+        Vector2 pos = new Vector2(posX, posY);
         Color c = new Color(color.x, color.y, color.z, 1);
-        texture.SetPixel(posX, posY, c);
-        for (int x = -tailleEcriture; x < tailleEcriture; x++)
+        if (lstPoint.Count >= 1 && Vector2.Distance(lstPoint[lstPoint.Count - 1], pos) > tailleEcriture)
+            lstPoint.Add(new Vector2((int)pos.x, (int)pos.y));
+        if (lstPoint.Count == 0)
+            lstPoint.Add(new Vector2((int)pos.x, (int)pos.y));
+
+        if (lstPoint.Count >= 4)
         {
-            for (int y = -tailleEcriture; y < tailleEcriture; y++)
+            for (int i = 0; i < lstPoint.Count - 3; i += 3) //changer valeurs boucle ?
             {
-                texture.SetPixel((int)posX + x, (int)posY + y, c);
+                for (float u = 0; u <= 1; u += 0.0105f)
+                {
+                    Vector2 newPos;
+                    //pointcalcul x et y, modif listPoint[i+1] à partir du deuxième patch, i > 0
+                    if (i == 0)
+                    {
+                        pointCalculx = (int)lstPoint[i + 1].x;
+                        pointCalculy = (int)lstPoint[i + 1].y;
+
+                    }
+                    else
+                    {
+                        //calcul des coefficients de colinéarité pour le raccordement de la courbe
+                        pointCalculx = (int)(2 * lstPoint[i].x - lstPoint[i - 1].x);
+                        pointCalculy = (int)(2 * lstPoint[i].y - lstPoint[i - 1].y);
+                    }
+
+                    newPos.x = lstPoint[i].x * Mathf.Pow(1 - u, 3) + 3 * pointCalculx * u * Mathf.Pow(1 - u, 2) + 3 * lstPoint[i + 2].x * u * u * (1 - u) + lstPoint[i + 3].x * u * u * u;
+                    newPos.y = lstPoint[i].y * Mathf.Pow(1 - u, 3) + 3 * pointCalculy * u * Mathf.Pow(1 - u, 2) + 3 * lstPoint[i + 2].y * u * u * (1 - u) + lstPoint[i + 3].y * u * u * u;
+
+                    for (int x = -tailleEcriture; x < tailleEcriture; x++)
+                    {
+                        for (int y = -tailleEcriture; y < tailleEcriture; y++)
+                        {
+                            if (Vector2.Distance(newPos, new Vector2(newPos.x + x, newPos.y + y)) < tailleEcriture)
+                            {
+                                texture.SetPixel((int)newPos.x + x, (int)newPos.y + y, c);
+                            }
+
+                        }
+                    }
+                }
+
+
             }
+            texture.Apply();
         }
-        texture.Apply();
     }
 }
