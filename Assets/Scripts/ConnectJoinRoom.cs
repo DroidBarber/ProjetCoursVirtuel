@@ -97,9 +97,8 @@ public class ConnectJoinRoom : MonoBehaviourPunCallbacks
         RoomOptions roomOptions = new RoomOptions() { MaxPlayers = this.MaxPlayers };
         if (playerTTL >= 0)
             roomOptions.PlayerTtl = playerTTL;
-        roomOptions.PublishUserId = true;
         TypedLobby typedLobby = new TypedLobby("3iL",  LobbyType.Default);
-        PhotonNetwork.JoinOrCreateRoom("RoomAutoJoinAvatar", roomOptions, typedLobby);
+        PhotonNetwork.JoinOrCreateRoom("RoomAutoJoin3", roomOptions, typedLobby);
     }
      
 }

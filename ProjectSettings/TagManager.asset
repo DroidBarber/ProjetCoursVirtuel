@@ -6,7 +6,6 @@ TagManager:
   tags:
   - Stylo
   - Tableau
-  - Avatar
   layers:
   - Default
   - TransparentFX
@@ -20,6 +19,9 @@ TagManager:
   - LayerMenu
   - Ground
   - Tableau
+  - 
+  - 
+  - 
   - 
   - 
   - 
