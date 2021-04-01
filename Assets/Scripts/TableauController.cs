@@ -10,6 +10,7 @@ public class TableauController : MonoBehaviourPunCallbacks
     public GameObject coinHautGauche, coinHautDroite, coinBasGauche, coinBasDroite;
     private int tailleEcriture = 6, pointCalculx, pointCalculy;
     private List<Vector2> lstPoint = new List<Vector2>();
+    private bool needApplyTexture = false;
 
     // Start is called before the first frame update
     void Awake()
@@ -98,8 +99,17 @@ public class TableauController : MonoBehaviourPunCallbacks
 
 
             }
-            texture.Apply();
+            needApplyTexture = true;
+            
 
+        }
+    }
+    public void FixedUpdate()
+    {
+        if (needApplyTexture)
+        {
+            texture.Apply();
+            needApplyTexture = false;
         }
     }
 
