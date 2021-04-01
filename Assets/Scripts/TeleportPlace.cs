@@ -29,11 +29,12 @@ public class TeleportPlace : MonoBehaviour
             else if (OVRInput.GetUp(OVRInput.RawButton.LThumbstick) || Input.GetKeyUp(KeyCode.L))
             {
                 
-                log_ui.AjoutLog("Trigger R OK");
+                log_ui.AjoutLog("Trigger L OK");
                 PhotonView.Get(placesController).RPC("libererPlaceRPC", RpcTarget.All, PhotonNetwork.NetworkingClient.UserId);
                 indexPlace = 0; 
                 isAssis = false;
-                transform.position = new Vector3(0, 0, 0);
+                transform.position = Vector3.zero;
+                log_ui.AjoutLog("Position reelle : "+transform.position.ToString());
             }
         }
     }
