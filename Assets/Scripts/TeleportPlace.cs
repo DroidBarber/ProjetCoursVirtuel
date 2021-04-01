@@ -13,7 +13,7 @@ public class TeleportPlace : MonoBehaviour
     {
         if (PhotonNetwork.InRoom)
         {
-            if (OVRInput.Get(OVRInput.RawAxis1D.RHandTrigger) > 0.5f || Input.GetKeyUp(KeyCode.K))
+            if (OVRInput.GetUp(OVRInput.RawButton.RThumbstick) || Input.GetKeyUp(KeyCode.K))
             {
                 PhotonView.Get(placesController).RPC("reserverPlace", RpcTarget.MasterClient, indexPlace,
                     PhotonNetwork.NetworkingClient.UserId);
@@ -21,7 +21,7 @@ public class TeleportPlace : MonoBehaviour
                                 placesController.nbRangeesDroite * placesController.nbChaisesDroite);
                 isAssis = true;
             }
-            else if (OVRInput.Get(OVRInput.RawAxis1D.RHandTrigger) > 0.5f || Input.GetKeyUp(KeyCode.L))
+            else if (OVRInput.GetUp(OVRInput.RawButton.LThumbstick) || Input.GetKeyUp(KeyCode.L))
             {
                 PhotonView.Get(placesController).RPC("libererPlaceRPC", RpcTarget.All, PhotonNetwork.NetworkingClient.UserId);
                 indexPlace = 0; 
