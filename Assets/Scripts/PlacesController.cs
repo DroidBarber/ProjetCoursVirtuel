@@ -50,11 +50,8 @@ public class PlacesController : MonoBehaviourPunCallbacks
         {
             indexPlace = indexPlace - nbRangeesGauche * nbChaisesGauche;
             int numRangee = indexPlace/nbChaisesDroite;
-            Debug.Log("numRangee : "+ numRangee); 
             int numChaise = indexPlace - numRangee * nbChaisesDroite;
-            Debug.Log("numChaise : "+ numChaise); 
             Vector3 place = new Vector3(offsetRightX * numRangee + rightA.position.x, rightA.position.y, offsetRightZ * numChaise + rightA.position.z);
-            Debug.Log("Position index : " + indexPlace + " | Pos : " + place);
             return place;
         } 
         else
