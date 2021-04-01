@@ -9,11 +9,13 @@ public class TeleportPlace : MonoBehaviour
     public PlacesController placesController;
     private int indexPlace = 0;
     public bool isAssis = false;
+    public Log_UI log_ui;
+
     void Update()
     {
         if (PhotonNetwork.InRoom)
         {
-            var log_ui = GameObject.Find("Log_UI").GetComponent<Log_UI>();
+            
             if (OVRInput.GetUp(OVRInput.RawButton.RThumbstick) || Input.GetKeyUp(KeyCode.K))
             {
                 log_ui.AjoutLog("Trigger R OK");

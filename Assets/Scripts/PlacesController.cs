@@ -24,8 +24,8 @@ public class PlacesController : MonoBehaviourPunCallbacks
     private float offsetLeftX;
     private float offsetRightZ;
     private float offsetRightX;
-    private List<String> isAvailable; 
-    Log_UI log_ui = GameObject.Find("Log_UI").GetComponent<Log_UI>();
+    private List<String> isAvailable;
+    public Log_UI log_ui;
     
 
     void Start()

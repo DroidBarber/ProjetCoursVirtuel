@@ -663,6 +663,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placesController: {fileID: 431925578}
+  isAssis: 0
+  log_ui: {fileID: 1450634328}
 --- !u!1 &265671395
 GameObject:
   m_ObjectHideFlags: 0
@@ -888,6 +890,7 @@ MonoBehaviour:
   nbChaisesGauche: 7
   nbRangeesDroite: 8
   nbChaisesDroite: 6
+  log_ui: {fileID: 1450634328}
 --- !u!114 &431925579
 MonoBehaviour:
   m_ObjectHideFlags: 0
