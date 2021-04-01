@@ -25,6 +25,8 @@ public class PlacesController : MonoBehaviourPunCallbacks
     private float offsetRightZ;
     private float offsetRightX;
     private List<String> isAvailable; 
+    Log_UI log_ui = GameObject.Find("Log_UI").GetComponent<Log_UI>();
+    
 
     void Start()
     {
@@ -37,6 +39,8 @@ public class PlacesController : MonoBehaviourPunCallbacks
         {
             isAvailable.Add("");
         }
+        log_ui.ForceClear();
+        
     }
     
     public Vector3 getPlaceTransform(int indexPlace) //index commence à 0
@@ -52,6 +56,7 @@ public class PlacesController : MonoBehaviourPunCallbacks
             int numRangee = indexPlace/nbChaisesDroite;
             int numChaise = indexPlace - numRangee * nbChaisesDroite;
             Vector3 place = new Vector3(offsetRightX * numRangee + rightA.position.x, rightA.position.y, offsetRightZ * numChaise + rightA.position.z);
+            log_ui.AjoutLog("Vecteur TP theorique : " + place.x +" "+place.y+" "+place.z);
             return place;
         } 
         else
@@ -59,6 +64,7 @@ public class PlacesController : MonoBehaviourPunCallbacks
             int numRangee = indexPlace/nbChaisesGauche;
             int numChaise = indexPlace - numRangee * nbChaisesGauche;
             Vector3 place = new Vector3(offsetLeftX * numRangee + leftA.position.x, leftA.position.y, offsetLeftZ * numChaise + leftA.position.z);
+            log_ui.AjoutLog("Vecteur TP theorique : " + place.x +" "+place.y+" "+place.z);
             return place;
         }
     }
