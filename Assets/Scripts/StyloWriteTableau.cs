@@ -29,14 +29,14 @@ public class StyloWriteTableau : MonoBehaviour
         if (this.gameObject.GetComponent<StyloController>().isGrab() && 
             this.gameObject.GetComponent<StyloController>().get_id_player_owner() == PhotonNetwork.LocalPlayer.UserId)
         {
-            log_ui.ForceClear();
+/*            log_ui.ForceClear();
             log_ui.AjoutLog("Grab dans Write", 15);
-            if (Physics.Raycast(ray, out hit, distanceDEcriture, layer_mask))
+*/            if (Physics.Raycast(ray, out hit, distanceDEcriture, layer_mask))
             {
-                log_ui.AjoutLog("Collide Ray cast", 15);
+                //log_ui.AjoutLog("Collide Ray cast", 15);
                 if (hit.collider.gameObject.tag == "Tableau")
                 {
-                    log_ui.AjoutLog("raycast avec Tableau" + hit.point + " color" +c.ToString(), 15);
+                    //log_ui.AjoutLog("raycast avec Tableau" + hit.point + " color" +c.ToString(), 15);
                     hit.collider.gameObject.GetComponent<TableauController>().Write(hit.point, c);
                 }
             }

@@ -23,7 +23,7 @@ public class GrabStylo : MonoBehaviour
             styloGrab.transform.position = this.transform.position + deltaPos;
             //styloGrab.transform.rotation = Quaternion.Euler(this.transform.rotation.eulerAngles + deltaRot2);
             //styloGrab.transform.eulerAngles = currentEulerAngles;
-            styloGrab.transform.rotation = Quaternion.Euler(this.transform.rotation.eulerAngles.x + deltaRot2.x, this.transform.rotation.eulerAngles.y + deltaRot2.y, this.transform.rotation.eulerAngles.z + deltaRot2.z)*Quaternion.Euler(1,-90,1);
+            styloGrab.transform.rotation = Quaternion.Euler(this.transform.rotation.eulerAngles.x + deltaRot2.x, this.transform.rotation.eulerAngles.y + deltaRot2.y, this.transform.rotation.eulerAngles.z + deltaRot2.z) * Quaternion.Euler(1, -90, 1);
             //modifie la rotation du stylo
 
             if (OVRInput.GetUp(OVRInput.RawButton.A) || Input.GetKeyUp(KeyCode.A))
@@ -47,7 +47,7 @@ public class GrabStylo : MonoBehaviour
                     if (lastGrab + 0.05f < Time.realtimeSinceStartup)
                     {
                         styloGrab = other.gameObject;
-                        styloGrab.GetComponent<PhotonView>().RequestOwnership();
+                        //styloGrab.GetComponent<PhotonView>().RequestOwnership();
                         deltaPos = new Vector3(styloGrab.transform.position.x - this.transform.position.x,
                                                 styloGrab.transform.position.y - this.transform.position.y,
                                                 styloGrab.transform.position.z - this.transform.position.z);

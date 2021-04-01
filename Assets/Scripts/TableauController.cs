@@ -20,15 +20,17 @@ public class TableauController : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-
+        GameObject log = GameObject.Find("Log_UI");
+        log.GetComponent<Log_UI>().ForceClear();
+        log.GetComponent<Log_UI>().AjoutLog(PhotonNetwork.InRoom.ToString());
     }
 
     public void Write(Vector3 position, Color c)
     {
         c.a = 1;// dans le doute
-        Debug.Log("Position:" + position);
-        GameObject.Find("Log_UI").GetComponent<Log_UI>().ForceClear();
-        GameObject.Find("Log_UI").GetComponent<Log_UI>().AjoutLog(position.ToString() + " color" + c.ToString());
+        //Debug.Log("Position:" + position);
+        /*GameObject.Find("Log_UI").GetComponent<Log_UI>().ForceClear();
+        GameObject.Find("Log_UI").GetComponent<Log_UI>().AjoutLog(position.ToString() + " color" + c.ToString());*/
 
         // z et y
         Vector2 pos = new Vector2();
@@ -39,7 +41,7 @@ public class TableauController : MonoBehaviourPunCallbacks
 
         this.GetComponent<PhotonView>().RPC("UpdateWrite", RpcTarget.Others, (int)pos.x, (int)pos.y, new Vector3(c.r, c.g, c.b));
 
-        Debug.Log((int)pos.x + "   " + (int)pos.y);
+        //Debug.Log((int)pos.x + "   " + (int)pos.y);
         texture.SetPixel((int)pos.x, (int)pos.y, c);
 
         // pour faire de l'épaisseur
@@ -58,26 +60,40 @@ public class TableauController : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsMasterClient)
         {
             this.GetComponent<PhotonView>().RPC("RequestSyncTableau", RpcTarget.MasterClient, PhotonNetwork.NetworkingClient.UserId);
+            Debug.LogError("RequestSyncTableau demandés");
+
         }
     }
     [PunRPC]
     public void RequestSyncTableau(string id_player)
     {
-        foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
+        Debug.LogWarning("RequestSyncTableau effectué");
+        Debug.LogError("id_player==nul =" + id_player == null);
+        foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerListOthers)
         {
+            Debug.LogWarning("player:" + player.UserId);
             if (player.UserId.Equals(id_player))
             {
-                this.GetComponent<PhotonView>().RPC("UpdateAll", player, texture);
+                //Texture2D t = new Texture2D(2000, 1200);
+                /*Graphics.CopyTexture(texture, t);
+                t.Compress(true);*/
+                byte[] byteTexture =  texture.EncodeToJPG();
+                this.GetComponent<PhotonView>().RPC("UpdateAll", player, byteTexture);
+
                 return;
             }
         }
     }
 
     [PunRPC]
-    public void UpdateAll(Texture2D t)
+    public void UpdateAll(byte[] t)
     {
+        Debug.LogError("Update all effectué avec taille=" + t.Length);
+        Destroy(texture);
         texture = null;
-        texture = t;
+        texture = new Texture2D(2000, 1200);
+        texture.LoadImage(t);
+        this.gameObject.GetComponent<Renderer>().material.SetTexture("_MainTex", texture);
     }
 
     [PunRPC]
@@ -94,5 +110,5 @@ public class TableauController : MonoBehaviourPunCallbacks
         }
         texture.Apply();
     }
-
 }
+

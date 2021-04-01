@@ -10,6 +10,7 @@ public class ConnectJoinRoom : MonoBehaviourPunCallbacks
     public bool isShowDebugLogInUnity = true; // Si on affiche les Debug.Log()
 
     public bool isAutoJoinOrCreateRoom = true;
+    public bool roomAuto2 = false;
 
     /// <summary>Used as PhotonNetwork.GameVersion.</summary>
     public byte Version = 1;
@@ -97,8 +98,9 @@ public class ConnectJoinRoom : MonoBehaviourPunCallbacks
         RoomOptions roomOptions = new RoomOptions() { MaxPlayers = this.MaxPlayers };
         if (playerTTL >= 0)
             roomOptions.PlayerTtl = playerTTL;
+        roomOptions.PublishUserId = true;
         TypedLobby typedLobby = new TypedLobby("3iL",  LobbyType.Default);
-        PhotonNetwork.JoinOrCreateRoom("RoomAutoJoin3", roomOptions, typedLobby);
+        PhotonNetwork.JoinOrCreateRoom("RoomAutoJoin"+(roomAuto2?"2":""), roomOptions, typedLobby);
     }
      
 }
