@@ -14,7 +14,6 @@ public class TeleportPlace : MonoBehaviour
         if (PhotonNetwork.InRoom)
         {
             var log_ui = GameObject.Find("Log_UI").GetComponent<Log_UI>();
-            log_ui.ForceClear();
             if (OVRInput.GetUp(OVRInput.RawButton.RThumbstick) || Input.GetKeyUp(KeyCode.K))
             {
                 log_ui.AjoutLog("Trigger R OK");
