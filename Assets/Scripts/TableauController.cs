@@ -63,7 +63,7 @@ public class TableauController : MonoBehaviourPunCallbacks
         {
             for (int i = 0; i < lstPoint.Count - 3; i += 3) //changer valeurs boucle ?
             {
-                for (float u = 0; u <= 1; u += 0.0105f)
+                for (float u = 0; u <= 1; u += 0.008f)
                 {
                     Vector2 newPos;
                     //pointcalcul x et y, modif listPoint[i+1] à partir du deuxième patch, i > 0
@@ -100,7 +100,10 @@ public class TableauController : MonoBehaviourPunCallbacks
 
             }
             needApplyTexture = true;
-            
+            lstPoint.RemoveAt(0);
+            lstPoint.RemoveAt(0);
+            lstPoint.RemoveAt(0);
+
 
         }
     }
