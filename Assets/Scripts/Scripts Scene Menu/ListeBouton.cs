@@ -22,7 +22,7 @@ public class ListeBouton: MonoBehaviour
 
     public void OnClick()
     {
-        boutonControl.ButtonClicked(myTextString);
+        //boutonControl.ButtonClicked(myTextString);
 
     }
   

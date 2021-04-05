@@ -47,18 +47,19 @@ public class ConnectJoinRoom : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnJoinedLobby()
+    /*public override void OnJoinedLobby()
     {
+        
         if (isShowDebugLogInUnity)
         {
-            Debug.Log("OnJoinedLobby(). This client is now connected to Relay in region [" +
+            Debug.LogError("OnJoinedLobby(). This client is now connected to Relay in region [" +
                 PhotonNetwork.CloudRegion + "]. This script now calls: PhotonNetwork.JoinRandomRoom();");
         }
         if (isAutoJoinOrCreateRoom)
         {
             AutoJoinOrCreateRoom();
         }
-    }
+    }*/
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
@@ -100,5 +101,16 @@ public class ConnectJoinRoom : MonoBehaviourPunCallbacks
         TypedLobby typedLobby = new TypedLobby("3iL",  LobbyType.Default);
         PhotonNetwork.JoinOrCreateRoom("RoomAutoJoin3", roomOptions, typedLobby);
     }
-     
+
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        base.OnRoomListUpdate(roomList);
+
+        Debug.LogError(roomList.Count);
+
+   
+
+        
+    }
+
 }

@@ -18,8 +18,8 @@ public class MenuChoixScript : MonoBehaviour
         EventSystem.GetComponent<UnityEngine.EventSystems.StandaloneInputModule>().enabled = true;
         Camera.GetComponent<UnityEngine.EventSystems.OVRPhysicsRaycaster>().enabled = true;
         Curseur.SetActive(true);
-        Camera.transform.position = new Vector3(0, 0, 0);
-        menu.transform.position = new Vector3(10, 0, 0);
+    /*    Camera.transform.position = new Vector3(0, 0, 0);
+        menu.transform.position = new Vector3(10, 0, 0);*/
     }
 
     // Update is called once per frame
