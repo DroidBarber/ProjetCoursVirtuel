@@ -203,7 +203,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 188687722}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1456266724}
+        m_MethodName: ButtonClicked
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &188687722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -379,12 +390,6 @@ Transform:
 --- !u!20 &194058779 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 2015248, guid: ce816f2e6abb0504092c23ed9b970dfd,
-    type: 3}
-  m_PrefabInstance: {fileID: 194058773}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &194058780 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100008, guid: ce816f2e6abb0504092c23ed9b970dfd,
     type: 3}
   m_PrefabInstance: {fileID: 194058773}
   m_PrefabAsset: {fileID: 0}
@@ -2019,7 +2024,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1177380678}
-  - component: {fileID: 1177380677}
   - component: {fileID: 1177380676}
   m_Layer: 0
   m_Name: Network
@@ -2035,32 +2039,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1177380675}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fa28aec26bfe2f4fa0a231bdae775df, type: 3}
+  m_Script: {fileID: 11500000, guid: 0c8a54c869b6d204bbb772bd641f69f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isShowDebugLogInUnity: 1
-  isAutoJoinOrCreateRoom: 1
   Version: 1
-  MaxPlayers: 20
-  playerTTL: -1
---- !u!114 &1177380677
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1177380675}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9a2c3a3399ab6742bb5730d0ce08f0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  logObj: {fileID: 873302993}
-  playerPrefab: {fileID: 7983778796349471175, guid: da7ef0518989e154b916b1554b91dba2,
-    type: 3}
-  playerOVR: {fileID: 194058780}
 --- !u!4 &1177380678
 Transform:
   m_ObjectHideFlags: 0

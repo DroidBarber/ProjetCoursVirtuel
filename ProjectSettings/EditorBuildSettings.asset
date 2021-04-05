@@ -5,24 +5,15 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Oculus/VR/Scenes/ControllerModels.unity
-    guid: 39cfe7aa0a2d46c47994d8d0308ec663
-  - enabled: 0
-    path: Assets/Scenes/Salle 309.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 0
-    path: Assets/Oculus/VR/Scenes/UI.unity
-    guid: 1f4d3ae64a10d434db219de8b14348e1
+  - enabled: 1
+    path: Assets/Scenes/Menu Ordi.unity
+    guid: effb6323c41d975489300630d71a3ce4
   - enabled: 1
     path: Assets/Scenes/Scene Menu.unity
     guid: e3d0cbc0982f1de4e8fe12acea08fc47
-  - enabled: 0
-    path: Assets/Photon/PhotonUnityNetworking/Demos/DemoAsteroids/Scenes/DemoAsteroids-LobbyScene.unity
-    guid: c8a9d1312a49dc8488a9b32d83d659c7
-  - enabled: 0
-    path: Assets/Photon/PhotonUnityNetworking/Demos/DemoAsteroids/Scenes/DemoAsteroids-GameScene.unity
-    guid: 98efc37d6307844488eb3e4247dde7e9
+  - enabled: 1
+    path: Assets/Scenes/Salle 309.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: f8ed3f8cd91789e47bd6f7e31241e92e,
       type: 2}

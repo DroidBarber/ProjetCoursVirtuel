@@ -9,8 +9,6 @@ public class ConnectJoinRoom : MonoBehaviourPunCallbacks
     [Tooltip("Si on affiche les Debug.Log() ou non")]
     public bool isShowDebugLogInUnity = true; // Si on affiche les Debug.Log()
 
-    public bool isAutoJoinOrCreateRoom = true;
-
     /// <summary>Used as PhotonNetwork.GameVersion.</summary>
     public byte Version = 1;
 
@@ -23,28 +21,16 @@ public class ConnectJoinRoom : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        if (isShowDebugLogInUnity)
-        {
-            Debug.Log("ConnectAndJoinRandom.ConnectNow() will now call: PhotonNetwork.ConnectUsingSettings().");
-        }
-        
-
-        PhotonNetwork.ConnectUsingSettings();
-        PhotonNetwork.GameVersion = this.Version + "." + SceneManagerHelper.ActiveSceneBuildIndex;
+        GameObject g = GameObject.Find("RoomNameToJoin");
+        string roomName = g.GetComponent<RoomNameToJoin>().roomName;
+        AutoJoinOrCreateRoom(roomName);
+        Destroy(g);
     }
 
 
     public override void OnConnectedToMaster()
     {
-        if (isShowDebugLogInUnity)
-        {
-            Debug.Log("OnConnectedToMaster() was called by PUN. This client is now connected to Master Server in region [" +
-                PhotonNetwork.CloudRegion + "] and can join a room. Calling: PhotonNetwork.JoinRandomRoom();");
-        }
-        if (isAutoJoinOrCreateRoom)
-        {
-            AutoJoinOrCreateRoom();
-        }
+        
     }
 
     /*public override void OnJoinedLobby()
@@ -61,20 +47,7 @@ public class ConnectJoinRoom : MonoBehaviourPunCallbacks
         }
     }*/
 
-    public override void OnJoinRandomFailed(short returnCode, string message)
-    {
-        if (isShowDebugLogInUnity)
-        {
-            Debug.Log("OnJoinRandomFailed() was called by PUN. No random room available in region [" +
-                PhotonNetwork.CloudRegion + "], so we create one. Calling: PhotonNetwork.CreateRoom(null, new RoomOptions() {maxPlayers = 4}, null);");
-        }
-
-        RoomOptions roomOptions = new RoomOptions() { MaxPlayers = this.MaxPlayers };
-        if (playerTTL >= 0)
-            roomOptions.PlayerTtl = playerTTL;
-
-        PhotonNetwork.CreateRoom(null, roomOptions, null);
-    }
+    
 
     // the following methods are implemented to give you some context. re-implement them as needed.
     public override void OnDisconnected(DisconnectCause cause)
@@ -83,6 +56,7 @@ public class ConnectJoinRoom : MonoBehaviourPunCallbacks
         {
             Debug.Log("OnDisconnected(" + cause + ")");
         }
+        //Mettre ici un changement de scène pour la scène de choix de room
     }
 
     public override void OnJoinedRoom()
@@ -93,24 +67,14 @@ public class ConnectJoinRoom : MonoBehaviourPunCallbacks
         }
     }
 
-    public void AutoJoinOrCreateRoom()
+    public void AutoJoinOrCreateRoom(string roomName)
     {
         RoomOptions roomOptions = new RoomOptions() { MaxPlayers = this.MaxPlayers };
         if (playerTTL >= 0)
             roomOptions.PlayerTtl = playerTTL;
-        TypedLobby typedLobby = new TypedLobby("3iL",  LobbyType.Default);
-        PhotonNetwork.JoinOrCreateRoom("RoomAutoJoin3", roomOptions, typedLobby);
+        PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, null);
     }
 
-    public override void OnRoomListUpdate(List<RoomInfo> roomList)
-    {
-        base.OnRoomListUpdate(roomList);
-
-        Debug.LogError(roomList.Count);
-
-   
-
-        
-    }
+    
 
 }
