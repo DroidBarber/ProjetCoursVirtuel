@@ -86,7 +86,9 @@ public class PlacesController : MonoBehaviourPunCallbacks
         if (playerID.Equals(PhotonNetwork.NetworkingClient.UserId))
         {
             Vector3 placePosition = getPlaceTransform(indexPlace);
+            playerTransform.gameObject.SetActive(false);
             playerTransform.position = placePosition;
+            playerTransform.gameObject.SetActive(true);
         }
     }
     [PunRPC]
