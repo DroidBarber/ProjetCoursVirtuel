@@ -35,6 +35,17 @@ public class TeleportPlace : MonoBehaviour
                 isAssis = false;
                 log_ui.AjoutLog("Position reelle : "+transform.position.ToString());
             }
+
+            float gravity = gameObject.GetComponent<OVRPlayerController>().GravityModifier;
+            if (isAssis && gravity != 0)
+            {
+                gameObject.GetComponent<OVRPlayerController>().GravityModifier = 0;
+            }
+            else if (isAssis && gravity == 0) {}
+            else
+            {
+                gameObject.GetComponent<OVRPlayerController>().GravityModifier = 1;
+            }
         }
     }
 }
