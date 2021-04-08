@@ -73,18 +73,20 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
 
     public void CreateRandomRoom()
     {
-
-        string roomName = "Room " + Random.Range(1000, 10000);
-        while (listeNomRoom.Contains(roomName))
+        if (PhotonNetwork.IsConnectedAndReady && PhotonNetwork.InLobby)
         {
-            roomName = "Room " + Random.Range(1000, 10000);
-        }
-        GameObject g = new GameObject("RoomNameToJoin");
-        g.AddComponent<RoomNameToJoin>();
-        g.GetComponent<RoomNameToJoin>().roomName = roomName;
+            string roomName = "Room " + Random.Range(1000, 10000);
+            while (listeNomRoom.Contains(roomName))
+            {
+                roomName = "Room " + Random.Range(1000, 10000);
+            }
+            GameObject g = new GameObject("RoomNameToJoin");
+            g.AddComponent<RoomNameToJoin>();
+            g.GetComponent<RoomNameToJoin>().roomName = roomName;
 
-        SceneManager.LoadScene("Salle 309");
-        // il faut que cette scène soit dans les scène du build setting dans file de unity
+            SceneManager.LoadScene("Salle 309");
+            // il faut que cette scène soit dans les scène du build setting dans file de unity
+        }
     }
 
     /*

@@ -10,7 +10,7 @@ public class StyloController : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        this.gameObject.SetActive(false);
+        this.gameObject.GetComponent<Renderer>().enabled = false;
     }
     // Start is called before the first frame update
     void Start()
@@ -56,6 +56,7 @@ public class StyloController : MonoBehaviourPunCallbacks
         {
             this.GetComponent<PhotonView>().RPC("RequireSync", RpcTarget.MasterClient, PhotonNetwork.NetworkingClient.UserId);
         }
+        this.gameObject.GetComponent<Renderer>().enabled = true;
     }
 
     [PunRPC]
