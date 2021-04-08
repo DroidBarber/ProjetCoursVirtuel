@@ -105,6 +105,9 @@ public class PlacesController : MonoBehaviourPunCallbacks
                 isAvailable[i] = "";
             }
         }
+        playerTransform.gameObject.SetActive(false);
+        playerTransform = new Vector3(0, 1, 0);
+        playerTransform.gameObject.SetActive(true);
     }
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
