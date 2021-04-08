@@ -106,7 +106,7 @@ public class PlacesController : MonoBehaviourPunCallbacks
             }
         }
         playerTransform.gameObject.SetActive(false);
-        playerTransform = new Vector3(0, 1, 0);
+        playerTransform.position = new Vector3(0, 1, 0);
         playerTransform.gameObject.SetActive(true);
     }
     public override void OnPlayerLeftRoom(Player otherPlayer)
