@@ -174,16 +174,37 @@ public class TableauController : MonoBehaviourPunCallbacks
     {
         Vector2 pos = new Vector2(posX, posY);
         Color c = new Color(color.x, color.y, color.z, 1);
-        if (lstPoint.Count >= 1 && Vector2.Distance(lstPoint[lstPoint.Count - 1], pos) > tailleEcriture)
+        c.a = 1;// dans le doute
+        //Debug.Log("Position:" + position);
+        /*GameObject.Find("Log_UI").GetComponent<Log_UI>().ForceClear();
+        GameObject.Find("Log_UI").GetComponent<Log_UI>().AjoutLog(position.ToString() + " color" + c.ToString());*/
+
+        // z et y
+        
+
+        //Debug.Log((int)pos.x + "   " + (int)pos.y);
+        //texture.SetPixel((int)pos.x, (int)pos.y, c);
+        pos.x = (int)pos.x;
+        pos.y = (int)pos.y;
+        if (lstPoint.Count >= 1 && Vector2.Distance(lstPoint[lstPoint.Count - 1], pos) > tailleEcriture * 2)
             lstPoint.Add(new Vector2((int)pos.x, (int)pos.y));
         if (lstPoint.Count == 0)
             lstPoint.Add(new Vector2((int)pos.x, (int)pos.y));
 
+        // pour faire de l'épaisseur
+        /*for (int x = -tailleEcriture; x < tailleEcriture; x++)
+        {
+            for (int y = -tailleEcriture; y < tailleEcriture; y++)
+            {
+                texture.SetPixel((int)pos.x + x, (int)pos.y + y, c);
+            }
+        }*/
         if (lstPoint.Count >= 4)
+        //Debug.Log(lstPoint.Count);
         {
             for (int i = 0; i < lstPoint.Count - 3; i += 3) //changer valeurs boucle ?
             {
-                for (float u = 0; u <= 1; u += 0.0105f)
+                for (float u = 0; u <= 1; u += 0.008f)
                 {
                     Vector2 newPos;
                     //pointcalcul x et y, modif listPoint[i+1] à partir du deuxième patch, i > 0
@@ -198,6 +219,7 @@ public class TableauController : MonoBehaviourPunCallbacks
                         //calcul des coefficients de colinéarité pour le raccordement de la courbe
                         pointCalculx = (int)(2 * lstPoint[i].x - lstPoint[i - 1].x);
                         pointCalculy = (int)(2 * lstPoint[i].y - lstPoint[i - 1].y);
+
                     }
 
                     newPos.x = lstPoint[i].x * Mathf.Pow(1 - u, 3) + 3 * pointCalculx * u * Mathf.Pow(1 - u, 2) + 3 * lstPoint[i + 2].x * u * u * (1 - u) + lstPoint[i + 3].x * u * u * u;
@@ -218,7 +240,12 @@ public class TableauController : MonoBehaviourPunCallbacks
 
 
             }
-            texture.Apply();
+            needApplyTexture = true;
+            lstPoint.RemoveAt(0);
+            lstPoint.RemoveAt(0);
+            lstPoint.RemoveAt(0);
+
+
         }
     }
 }
