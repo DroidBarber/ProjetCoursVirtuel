@@ -22,9 +22,14 @@ public class TableauController : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        /*GameObject log = GameObject.Find("Log_UI");
-        log.GetComponent<Log_UI>().ForceClear();
-        log.GetComponent<Log_UI>().AjoutLog(PhotonNetwork.InRoom.ToString());*/
+        if (PhotonNetwork.IsMasterClient)
+        {
+            if (OVRInput.GetUp(OVRInput.RawButton.B) || Input.GetKeyUp(KeyCode.B))
+            {
+                this.GetComponent<PhotonView>().RPC("ClearTableau", RpcTarget.All);
+
+            }
+        }
     }
 
     public void Write(Vector3 position, Color c)
@@ -246,5 +251,12 @@ public class TableauController : MonoBehaviourPunCallbacks
 
 
         }
+    }
+
+    [PunRPC]
+    public void ClearTableau()
+    {
+        texture = new Texture2D(2000, 1200);
+        this.gameObject.GetComponent<Renderer>().material.SetTexture("_MainTex", texture);
     }
 }

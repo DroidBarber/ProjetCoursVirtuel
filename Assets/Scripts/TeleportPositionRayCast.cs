@@ -19,7 +19,7 @@ public class TeleportPositionRayCast : MonoBehaviour
     {
         //Debug.DrawRay(this.transform.position, this.transform.forward*10);
         
-        RaycastHit hit;
+     /*   RaycastHit hit;
         Ray ray = new Ray(this.transform.position, this.transform.forward);
 
         int layer_mask = LayerMask.GetMask("Ground");
@@ -37,7 +37,7 @@ public class TeleportPositionRayCast : MonoBehaviour
                 player.transform.position = new Vector3(hit.point.x, player.transform.position.y, hit.point.z);
                 //Il faudrait prendre en compte la différence de hauteur au niveau de l'estrade!!!
             }
-        }
+        }*/
         
     }
 }
