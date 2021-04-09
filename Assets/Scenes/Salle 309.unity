@@ -147,13 +147,13 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 890700}
   m_LocalRotation: {x: -0, y: -0.000000029802305, z: 7.3579095e-16, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -21.07}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.049999997, y: 0.05, z: 0.21999973}
   m_Children:
   - {fileID: 1349829975}
   - {fileID: 1158050071}
   m_Father: {fileID: 836581672}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1605,7 +1605,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &836581672
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1618,6 +1618,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 1.95}
   m_LocalScale: {x: 0.19999996, y: 0.14999999, z: 0.1000001}
   m_Children:
+  - {fileID: 276878634}
   - {fileID: 890701}
   m_Father: {fileID: 629895374}
   m_RootOrder: 1
@@ -2630,8 +2631,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isShowDebugLogInUnity: 1
-  isAutoJoinOrCreateRoom: 1
-  roomAuto2: 1
   Version: 1
   MaxPlayers: 20
   playerTTL: -1
@@ -2912,7 +2911,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1349829974}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.000000039858}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 638408578}

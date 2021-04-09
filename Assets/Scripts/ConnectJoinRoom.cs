@@ -30,7 +30,7 @@ public class ConnectJoinRoom : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        
+
     }
 
     /*public override void OnJoinedLobby()
@@ -47,7 +47,7 @@ public class ConnectJoinRoom : MonoBehaviourPunCallbacks
         }
     }*/
 
-    
+
 
     // the following methods are implemented to give you some context. re-implement them as needed.
     public override void OnDisconnected(DisconnectCause cause)
@@ -73,10 +73,9 @@ public class ConnectJoinRoom : MonoBehaviourPunCallbacks
         if (playerTTL >= 0)
             roomOptions.PlayerTtl = playerTTL;
         roomOptions.PublishUserId = true;
-        TypedLobby typedLobby = new TypedLobby("3iL",  LobbyType.Default);
-        PhotonNetwork.JoinOrCreateRoom("RoomAutoJoin4646", roomOptions, typedLobby);
+        PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, null);
     }
 
-    
+
 
 }
