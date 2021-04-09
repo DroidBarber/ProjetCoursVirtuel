@@ -28,6 +28,7 @@ public class MicroOculus : MonoBehaviour
     void Update()
     {
         //r.UnityMicrophoneDevice = UnityEngine.Microphone.devices[2];
+
     }
     
 }
