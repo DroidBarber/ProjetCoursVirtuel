@@ -91,6 +91,7 @@ public class PlacesController : MonoBehaviourPunCallbacks
         {
             Vector3 placePosition = getPlaceTransform(indexPlace);
             playerTransform.gameObject.SetActive(false);
+            playerTransform.gameObject.GetComponent<OVRPlayerController>().GravityModifier = 0;
             playerTransform.position = placePosition;
             playerTransform.gameObject.SetActive(true);
         }
@@ -111,6 +112,7 @@ public class PlacesController : MonoBehaviourPunCallbacks
         }
         playerTransform.gameObject.SetActive(false);
         playerTransform.position = new Vector3(0, 1, 0);
+        playerTransform.gameObject.GetComponent<OVRPlayerController>().GravityModifier = 1;
         playerTransform.gameObject.SetActive(true);
     }
     public override void OnPlayerLeftRoom(Player otherPlayer)
