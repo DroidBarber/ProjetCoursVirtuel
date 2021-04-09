@@ -20,9 +20,9 @@ public class TableauController : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        GameObject log = GameObject.Find("Log_UI");
+        /*GameObject log = GameObject.Find("Log_UI");
         log.GetComponent<Log_UI>().ForceClear();
-        log.GetComponent<Log_UI>().AjoutLog(PhotonNetwork.InRoom.ToString());
+        log.GetComponent<Log_UI>().AjoutLog(PhotonNetwork.InRoom.ToString());*/
     }
 
     public void Write(Vector3 position, Color c)
