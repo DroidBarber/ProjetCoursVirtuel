@@ -32,7 +32,7 @@ public class SlideController : MonoBehaviourPunCallbacks
     {
         rendererObj = this.GetComponent<Renderer>(); // Récuperation du renderer
         rendererObj.enabled = true; // Par défaut pas d'affichage d'image
-        material = rendererObj.material; // Récuperation du material
+        material = rendererObj.sharedMaterial; // Récuperation du material
         material.SetTexture("_MainTex", null); // Pas de texture(=image) par défaut
         StartCoroutine(GetDiapo());
 
