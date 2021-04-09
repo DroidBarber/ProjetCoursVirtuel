@@ -10,6 +10,7 @@ public class TeleportPlace : MonoBehaviour
     private int indexPlace = 0;
     public bool isAssis = false;
     public Log_UI log_ui;
+    public Renderer duplicationDiapo;
 
     void Update()
     {
@@ -24,6 +25,8 @@ public class TeleportPlace : MonoBehaviour
                 indexPlace = (indexPlace+1) % (placesController.nbRangeesGauche * placesController.nbChaisesGauche +
                                 placesController.nbRangeesDroite * placesController.nbChaisesDroite);
                 isAssis = true;
+                duplicationDiapo.gameObject.SetActive(true);
+                duplicationDiapo.transform.position = transform.position + placesController.offsetDuplicateDiapo;
                 log_ui.AjoutLog("Position reelle : "+transform.position.ToString());
             }
             else if (OVRInput.GetUp(OVRInput.RawButton.LThumbstick) || Input.GetKeyUp(KeyCode.L))
@@ -33,6 +36,7 @@ public class TeleportPlace : MonoBehaviour
                 PhotonView.Get(placesController).RPC("libererPlaceRPC", RpcTarget.All, PhotonNetwork.NetworkingClient.UserId);
                 indexPlace = 0; 
                 isAssis = false;
+                duplicationDiapo.gameObject.SetActive(false);
                 log_ui.AjoutLog("Position reelle : "+transform.position.ToString());
             }
 

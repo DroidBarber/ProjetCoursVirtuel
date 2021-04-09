@@ -26,6 +26,7 @@ public class PlacesController : MonoBehaviourPunCallbacks
     private float offsetRightX;
     private List<String> isAvailable;
     public Log_UI log_ui;
+    public Vector3 offsetDuplicateDiapo;
     
 
     void Start()
@@ -40,7 +41,10 @@ public class PlacesController : MonoBehaviourPunCallbacks
             isAvailable.Add("");
         }
         log_ui.ForceClear();
-        
+        var leftAPosition = leftA.position;
+        var planePosition = playerTransform.gameObject.GetComponent<TeleportPlace>().duplicationDiapo.transform.position;
+        offsetDuplicateDiapo = new Vector3(planePosition.x - leftAPosition.x, planePosition.y - leftAPosition.y,
+            planePosition.z - leftAPosition.z);
     }
     
     public Vector3 getPlaceTransform(int indexPlace) //index commence à 0

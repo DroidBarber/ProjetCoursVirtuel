@@ -14,7 +14,7 @@ public class TableauController : MonoBehaviourPunCallbacks
     void Awake()
     {
         texture = new Texture2D(2000, 1200);
-        this.gameObject.GetComponent<Renderer>().material.SetTexture("_MainTex", texture);
+        this.gameObject.GetComponent<Renderer>().sharedMaterial.SetTexture("_MainTex", texture);
     }
 
     // Update is called once per frame
