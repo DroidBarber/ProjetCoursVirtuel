@@ -5,6 +5,7 @@ using UnityEngine;
 public class RoomNameToJoin : MonoBehaviour
 {
     public string roomName;
+    public string avatarName;
     // Start is called before the first frame update
     void Awake()
     {

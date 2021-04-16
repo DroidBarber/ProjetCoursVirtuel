@@ -15,7 +15,9 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
     public byte Version = 1;
 
     private List<string> listeNomRoom = new List<string>();
-    private List<GameObject> listeButtonRoom = new List<GameObject>(); 
+    private List<GameObject> listeButtonRoom = new List<GameObject>();
+
+    private string avatarName;
 
 
 
@@ -66,6 +68,7 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
         GameObject g = new GameObject("RoomNameToJoin");
         g.AddComponent<RoomNameToJoin>();
         g.GetComponent<RoomNameToJoin>().roomName = nameRoom;
+        g.GetComponent<RoomNameToJoin>().avatarName = avatarName;
 
         SceneManager.LoadScene("Salle 309");
         // il faut que cette scène soit dans les scène du build setting dans file de unity

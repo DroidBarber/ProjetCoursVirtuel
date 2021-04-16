@@ -13,14 +13,21 @@ public class MicroOculus : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        r = this.gameObject.GetComponent<Recorder>();
 #if PLATFORM_ANDROID
         if (!Permission.HasUserAuthorizedPermission(Permission.Microphone))
         {
             Permission.RequestUserPermission(Permission.Microphone);
         }
 
-        r = this.gameObject.GetComponent<Recorder>();
-        r.UnityMicrophoneDevice = UnityEngine.Microphone.devices[2];
+        if (UnityEngine.Microphone.devices.Length >=3)
+        {
+            r.UnityMicrophoneDevice = UnityEngine.Microphone.devices[2];
+        }
+        else if (UnityEngine.Microphone.devices.Length >= 1)
+        {
+            r.UnityMicrophoneDevice = UnityEngine.Microphone.devices[0];
+        }
 #endif
     }
 

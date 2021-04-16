@@ -131,7 +131,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8636464811412339610}
-  - component: {fileID: 8636464811412339609}
   - component: {fileID: 8636464811412339608}
   m_Layer: 0
   m_Name: Places
@@ -156,29 +155,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8636464811412339609
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8636464811412339611}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d97cfcb4058013949a0d3905663e40bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerTransform: {fileID: 0}
-  leftA: {fileID: 8636464810982083917}
-  leftB: {fileID: 8636464811473800340}
-  rightA: {fileID: 8636464810920790952}
-  rightB: {fileID: 8636464810110235999}
-  nbRangeesGauche: 9
-  nbChaisesGauche: 7
-  nbRangeesDroite: 8
-  nbChaisesDroite: 6
-  log_ui: {fileID: 0}
-  offsetDuplicateDiapo: {x: 0, y: 0, z: 0}
 --- !u!114 &8636464811412339608
 MonoBehaviour:
   m_ObjectHideFlags: 0

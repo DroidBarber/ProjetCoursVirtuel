@@ -20,7 +20,7 @@ public class SlideController : MonoBehaviourPunCallbacks
     private Material material;
     private Renderer rendererObj;
     private int id_diapo_active = 0;
-    private float timer = 0.0f; //initialise le timer à zéro
+    //private float timer = 0.0f; //initialise le timer à zéro
     private bool isAllDownload = false;
     private bool isNeedChangeTexture = false;
     public Log_UI logObj;
