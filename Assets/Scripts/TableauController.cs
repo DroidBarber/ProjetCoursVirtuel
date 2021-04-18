@@ -140,7 +140,7 @@ public class TableauController : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsMasterClient)
         {
             this.GetComponent<PhotonView>().RPC("RequestSyncTableau", RpcTarget.MasterClient, PhotonNetwork.NetworkingClient.UserId);
-            Debug.LogError("RequestSyncTableau demandés");
+            //Debug.LogError("RequestSyncTableau demandés");
 
         }
     }
@@ -168,7 +168,7 @@ public class TableauController : MonoBehaviourPunCallbacks
     [PunRPC]
     public void UpdateAll(byte[] t)
     {
-        Debug.LogError("Update all effectué avec taille=" + t.Length);
+        //Debug.LogError("Update all effectué avec taille=" + t.Length);
         Destroy(texture);
         texture = null;
         texture = new Texture2D(2000, 1200);

@@ -24,7 +24,6 @@ public class ConnectJoinRoom : MonoBehaviourPunCallbacks
         GameObject g = GameObject.Find("RoomNameToJoin");
         string roomName = g.GetComponent<RoomNameToJoin>().roomName;
         AutoJoinOrCreateRoom(roomName);
-        Destroy(g);
     }
 
 

@@ -64,13 +64,13 @@ public class StyloController : MonoBehaviourPunCallbacks
     {
         if(!this.isGrab())
         {
-            Debug.LogError("RequireSync grabend pour " + id_player);
+            //Debug.LogError("RequireSync grabend pour " + id_player);
             foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
             {
                 if (player.UserId.Equals(id_player))
                 {
                     this.GetComponent<PhotonView>().RPC("GrabEnd", player);
-                    Debug.LogError("RequireSync grabend send pour " + id_player);
+                    //Debug.LogError("RequireSync grabend send pour " + id_player);
                     return;
                 }
             }
@@ -93,8 +93,7 @@ public class StyloController : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        // problème ici
-        Debug.LogWarning("OnPlayerLeftRoom, is master=" + PhotonNetwork.IsMasterClient + " id same=" + otherPlayer.UserId.Equals(id_player_owner));
+        //Debug.LogWarning("OnPlayerLeftRoom, is master=" + PhotonNetwork.IsMasterClient + " id same=" + otherPlayer.UserId.Equals(id_player_owner));
         if (otherPlayer.UserId.Equals(id_player_owner))
         {
             if (PhotonNetwork.IsMasterClient)

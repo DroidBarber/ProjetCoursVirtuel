@@ -2847,8 +2847,9 @@ MonoBehaviour:
   logObj: {fileID: 1450634328}
   playerPrefabList:
   - {fileID: 7983778796349471175, guid: da7ef0518989e154b916b1554b91dba2, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8943783474794911921, guid: c4adc5c8c8808554c8d85997a8e96b19, type: 3}
+  - {fileID: 2996648441103625656, guid: 349a2d5ea46f7de4ab72c7fffa3e77fc, type: 3}
+  - {fileID: 6828068362865258761, guid: be8af7272c3bc0147823e72c5d69dbf0, type: 3}
   playerOVR: {fileID: 249651307}
 --- !u!4 &1003131800
 Transform:
@@ -3183,7 +3184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 681d31a9c80b056498fecae36088d756, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  alpha: 0.5
+  alpha: 0.8
 --- !u!1 &1244333412 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8701761529085436787, guid: abaa673ea02c25e4ca56f03b57fd7957,
@@ -3202,7 +3203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 681d31a9c80b056498fecae36088d756, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  alpha: 0.5
+  alpha: 0.8
 --- !u!1 &1349829974
 GameObject:
   m_ObjectHideFlags: 0

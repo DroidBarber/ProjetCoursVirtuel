@@ -9,7 +9,7 @@ public class Network : MonoBehaviourPunCallbacks
     public Log_UI logObj;
     public List<GameObject> playerPrefabList;
     public GameObject playerOVR;
-    private string avatarName;
+    private int avatarIndex;
     // Start is called before the first frame update
     void Awake()
     {
@@ -24,7 +24,7 @@ public class Network : MonoBehaviourPunCallbacks
             Debug.LogError("playerOVR non assigné");
 
         GameObject g = GameObject.Find("RoomNameToJoin");
-        avatarName = g.GetComponent<RoomNameToJoin>().avatarName;
+        avatarIndex = g.GetComponent<RoomNameToJoin>().avatarIndex;
     }
 
     // Update is called once per frame
@@ -52,18 +52,15 @@ public class Network : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         logObj.AjoutLog("Connecté à la room: " + PhotonNetwork.CurrentRoom.Name, 50);
-        GameObject p = new GameObject();
-        foreach (GameObject avatar in playerPrefabList)
+        GameObject p;
+        
+        
+        if (playerPrefabList.Count >= avatarIndex)
         {
-            if (avatar.name.Equals(avatarName))
-            {
-                p = PhotonNetwork.Instantiate(avatar.name, avatar.transform.position, Quaternion.identity);
-                break;
-            }
+            p = PhotonNetwork.Instantiate(playerPrefabList[avatarIndex].name, playerPrefabList[avatarIndex].transform.position, Quaternion.identity);
         }
-        if (!p.name.Equals(avatarName) && playerPrefabList.Count >=1)
+        else
         {
-            Destroy(p);
             p = PhotonNetwork.Instantiate(playerPrefabList[0].name, playerPrefabList[0].transform.position, Quaternion.identity);
         }
 

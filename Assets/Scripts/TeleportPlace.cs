@@ -19,7 +19,6 @@ public class TeleportPlace : MonoBehaviour
             
             if (OVRInput.GetUp(OVRInput.RawButton.RThumbstick) || Input.GetKeyUp(KeyCode.K))
             {
-                log_ui.AjoutLog("Trigger R OK");
                 PhotonView.Get(placesController).RPC("reserverPlace", RpcTarget.MasterClient, indexPlace,
                     PhotonNetwork.NetworkingClient.UserId);
                 indexPlace = (indexPlace+1) % (placesController.nbRangeesGauche * placesController.nbChaisesGauche +
@@ -27,17 +26,16 @@ public class TeleportPlace : MonoBehaviour
                 isAssis = true;
                 duplicationDiapo.gameObject.SetActive(true);
                 duplicationDiapo.transform.position = transform.position + placesController.offsetDuplicateDiapo;
-                log_ui.AjoutLog("Position reelle : "+transform.position.ToString());
+                log_ui.AjoutLog("K: Position reelle : "+transform.position.ToString());
             }
             else if (OVRInput.GetUp(OVRInput.RawButton.LThumbstick) || Input.GetKeyUp(KeyCode.L))
             {
                 
-                log_ui.AjoutLog("Trigger L OK");
                 PhotonView.Get(placesController).RPC("libererPlaceRPC", RpcTarget.All, PhotonNetwork.NetworkingClient.UserId);
                 indexPlace = 0; 
                 isAssis = false;
                 duplicationDiapo.gameObject.SetActive(false);
-                log_ui.AjoutLog("Position reelle : "+transform.position.ToString());
+                log_ui.AjoutLog("L: Position reelle : "+transform.position.ToString());
             }
         }
     }

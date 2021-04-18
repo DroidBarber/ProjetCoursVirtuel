@@ -40,7 +40,6 @@ public class PlacesController : MonoBehaviourPunCallbacks
         {
             isAvailable.Add("");
         }
-        log_ui.ForceClear();
         var leftAPosition = leftA.position;
         var planePosition = playerTransform.gameObject.GetComponent<TeleportPlace>().duplicationDiapo.transform.position;
         offsetDuplicateDiapo = new Vector3(planePosition.x - leftAPosition.x, planePosition.y - leftAPosition.y,
@@ -110,10 +109,13 @@ public class PlacesController : MonoBehaviourPunCallbacks
                 isAvailable[i] = "";
             }
         }
-        playerTransform.gameObject.SetActive(false);
-        playerTransform.position = new Vector3(0, 1, 0);
-        playerTransform.gameObject.GetComponent<OVRPlayerController>().GravityModifier = 1;
-        playerTransform.gameObject.SetActive(true);
+        if (playerID.Equals(PhotonNetwork.NetworkingClient.UserId))
+        {
+            playerTransform.gameObject.SetActive(false);
+            playerTransform.position = new Vector3(0, 1, 0);
+            playerTransform.gameObject.GetComponent<OVRPlayerController>().GravityModifier = 1;
+            playerTransform.gameObject.SetActive(true);
+        }
     }
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {

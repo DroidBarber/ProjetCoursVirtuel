@@ -17,7 +17,7 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
     private List<string> listeNomRoom = new List<string>();
     private List<GameObject> listeButtonRoom = new List<GameObject>();
 
-    private string avatarName;
+    private int avatarIndex = 0;
 
 
 
@@ -28,7 +28,11 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+            avatarIndex = (avatarIndex + 1) % 4;
+            Debug.LogError(avatarIndex);
+        }
         
     }
 
@@ -68,7 +72,7 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
         GameObject g = new GameObject("RoomNameToJoin");
         g.AddComponent<RoomNameToJoin>();
         g.GetComponent<RoomNameToJoin>().roomName = nameRoom;
-        g.GetComponent<RoomNameToJoin>().avatarName = avatarName;
+        g.GetComponent<RoomNameToJoin>().avatarIndex = avatarIndex;
 
         SceneManager.LoadScene("Salle 309");
         // il faut que cette scène soit dans les scène du build setting dans file de unity
@@ -130,6 +134,5 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
         }
         RefreshRoomListUI();
     }
-
 
 }

@@ -16,8 +16,24 @@ public class SyncPosPlayer : MonoBehaviour
         if (!this.gameObject.GetComponent<PhotonView>().IsMine)
             Destroy(this);
         else
-            this.GetComponent<Renderer>().enabled = false;
-        
+        {
+            if (!this.GetComponent<Renderer>())
+            {
+                for (int i = 0; i < this.gameObject.transform.childCount; i++)
+                {
+                    var currentChild = this.gameObject.transform.GetChild(i);
+                    if (currentChild.CompareTag("Avatar"))
+                    {
+                        currentChild.gameObject.SetActive(false);
+                    }
+                }
+            }
+            else
+            {
+                this.GetComponent<Renderer>().enabled = false;
+            }
+        }
+
     }
 
     // Update is called once per frame
@@ -64,7 +80,7 @@ public class SyncPosPlayer : MonoBehaviour
             return parent.gameObject;
         foreach (Transform child in parent.transform)
         {
-            GameObject temp =  SearchInChild(name, child.gameObject);
+            GameObject temp = SearchInChild(name, child.gameObject);
             if (temp)
                 return temp;
         }
