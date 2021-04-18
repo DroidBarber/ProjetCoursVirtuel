@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Realtime;
 using Photon.Pun;
+using UnityEngine.SceneManagement;
 
 public class ConnectJoinRoom : MonoBehaviourPunCallbacks
 {
@@ -18,37 +19,16 @@ public class ConnectJoinRoom : MonoBehaviourPunCallbacks
 
     public int playerTTL = -1;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        GameObject g = GameObject.Find("RoomNameToJoin");
-        string roomName = g.GetComponent<RoomNameToJoin>().roomName;
-        AutoJoinOrCreateRoom(roomName);
+        if (!PhotonNetwork.InRoom)
+        {
+            GameObject g = GameObject.Find("RoomNameToJoin");
+            string roomName = g.GetComponent<RoomNameToJoin>().roomName;
+            AutoJoinOrCreateRoom(roomName);
+        }
     }
 
-
-    public override void OnConnectedToMaster()
-    {
-
-    }
-
-    /*public override void OnJoinedLobby()
-    {
-        
-        if (isShowDebugLogInUnity)
-        {
-            Debug.LogError("OnJoinedLobby(). This client is now connected to Relay in region [" +
-                PhotonNetwork.CloudRegion + "]. This script now calls: PhotonNetwork.JoinRandomRoom();");
-        }
-        if (isAutoJoinOrCreateRoom)
-        {
-            AutoJoinOrCreateRoom();
-        }
-    }*/
-
-
-
-    // the following methods are implemented to give you some context. re-implement them as needed.
     public override void OnDisconnected(DisconnectCause cause)
     {
         if (isShowDebugLogInUnity)

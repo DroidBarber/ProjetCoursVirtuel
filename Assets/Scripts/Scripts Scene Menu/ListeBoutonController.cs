@@ -18,12 +18,13 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
     private List<GameObject> listeButtonRoom = new List<GameObject>();
 
     private int avatarIndex = 0;
+    private bool isSalleTP = true;
 
 
 
     void Start()
-    { 
-
+    {
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     private void Update()
@@ -33,6 +34,10 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
             avatarIndex = (avatarIndex + 1) % 4;
             Debug.LogError(avatarIndex);
         }
+        else if (Input.GetKeyUp(KeyCode.X))
+        {
+            isSalleTP = !isSalleTP;
+        }
         
     }
 
@@ -41,7 +46,6 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
     void FixedUpdate()
     {
         
-
     }
 
     private void RefreshRoomListUI()
@@ -74,7 +78,17 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
         g.GetComponent<RoomNameToJoin>().roomName = nameRoom;
         g.GetComponent<RoomNameToJoin>().avatarIndex = avatarIndex;
 
-        SceneManager.LoadScene("Salle 309");
+        /*if (isSalleTP)
+        {
+            SceneManager.LoadScene("Salle TP");
+        }
+        else
+        {
+            SceneManager.LoadScene("Salle 309");
+        }*/
+        PhotonNetwork.JoinRoom(nameRoom);
+
+
         // il faut que cette scène soit dans les scène du build setting dans file de unity
     }
 
@@ -91,7 +105,14 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
             g.AddComponent<RoomNameToJoin>();
             g.GetComponent<RoomNameToJoin>().roomName = roomName;
 
-            SceneManager.LoadScene("Salle 309");
+            if (isSalleTP)
+            {
+                SceneManager.LoadScene("Salle TP");
+            }
+            else
+            {
+                SceneManager.LoadScene("Salle 309");
+            }
             // il faut que cette scène soit dans les scène du build setting dans file de unity
         }
     }

@@ -10,7 +10,7 @@ using UnityEngine;
 
 public class PlacesController : MonoBehaviourPunCallbacks
 {
-    public Transform playerTransform;
+    public GameObject playerTransform;
     public Transform leftA; //rangées gauche, gameobject avant gauche
     public Transform leftB; //rangées gauche, gameobject arriere droit
     public Transform rightA; //rangées droite, gameobject avant gauche
@@ -41,17 +41,21 @@ public class PlacesController : MonoBehaviourPunCallbacks
             isAvailable.Add("");
         }
         var leftAPosition = leftA.position;
-        var planePosition = playerTransform.gameObject.GetComponent<TeleportPlace>().duplicationDiapo.transform.position;
+        var planePosition = playerTransform.GetComponent<TeleportPlace>().duplicationDiapo.transform.position;
         offsetDuplicateDiapo = new Vector3(planePosition.x - leftAPosition.x, planePosition.y - leftAPosition.y,
             planePosition.z - leftAPosition.z);
     }
+    public int getNbPlace()
+    {
+        return nbRangeesGauche * nbChaisesGauche + nbRangeesDroite * nbChaisesDroite;
+    }
     
-    public Vector3 getPlaceTransform(int indexPlace) //index commence à 0
+    public virtual Vector3 getPlaceTransform(int indexPlace) //index commence à 0
     {
         if(indexPlace >= nbRangeesGauche * nbChaisesGauche + nbRangeesDroite * nbChaisesDroite)
         {
             Debug.LogError("IndexPlace dépasse le nombre total de places !");
-            return new Vector3(0, 0, 0);
+            return new Vector3(0, 1, 0);
         }
         else if (indexPlace >= nbRangeesGauche * nbChaisesGauche)
         {
@@ -89,16 +93,27 @@ public class PlacesController : MonoBehaviourPunCallbacks
         if (playerID.Equals(PhotonNetwork.NetworkingClient.UserId))
         {
             Vector3 placePosition = getPlaceTransform(indexPlace);
-            playerTransform.gameObject.SetActive(false);
-            playerTransform.gameObject.GetComponent<OVRPlayerController>().GravityModifier = 0;
-            playerTransform.position = placePosition;
-            playerTransform.gameObject.SetActive(true);
+            /*            playerTransform.gameObject.SetActive(false);
+                        playerTransform.gameObject.GetComponent<OVRPlayerController>().GravityModifier = 0;
+                        playerTransform.position = placePosition;
+                        playerTransform.gameObject.SetActive(true);
+            */
+            playerTransform.GetComponent<TeleportPlace>().teleportPlace(placePosition, true);
         }
     }
     [PunRPC]
     public void libererPlaceRPC(String playerID)
     {
         libererPlace(playerID);
+        if (playerID.Equals(PhotonNetwork.NetworkingClient.UserId))
+        {
+            /*            playerTransform.gameObject.SetActive(false);
+                        playerTransform.position = new Vector3(0, 1, 0);
+                        playerTransform.gameObject.GetComponent<OVRPlayerController>().GravityModifier = 1;
+                        playerTransform.gameObject.SetActive(true);
+            */
+            playerTransform.GetComponent<TeleportPlace>().teleportPlace(new Vector3(0, 1, 0), false);
+        }
     }
     public void libererPlace(String playerID)
     {
@@ -109,13 +124,7 @@ public class PlacesController : MonoBehaviourPunCallbacks
                 isAvailable[i] = "";
             }
         }
-        if (playerID.Equals(PhotonNetwork.NetworkingClient.UserId))
-        {
-            playerTransform.gameObject.SetActive(false);
-            playerTransform.position = new Vector3(0, 1, 0);
-            playerTransform.gameObject.GetComponent<OVRPlayerController>().GravityModifier = 1;
-            playerTransform.gameObject.SetActive(true);
-        }
+        
     }
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {

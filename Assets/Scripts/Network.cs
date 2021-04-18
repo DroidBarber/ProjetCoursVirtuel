@@ -70,5 +70,6 @@ public class Network : MonoBehaviourPunCallbacks
     public override void OnDisconnected(DisconnectCause cause)
     {
         logObj.AjoutLog("Déconnecté car: " + cause, 10);
+
     }
 }
