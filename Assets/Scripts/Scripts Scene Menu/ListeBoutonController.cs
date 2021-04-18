@@ -18,7 +18,7 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
     private List<GameObject> listeButtonRoom = new List<GameObject>();
 
     private int avatarIndex = 0;
-    private bool isSalleTP = true;
+    private bool isSalleTP = false;
 
 
 

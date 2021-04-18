@@ -648,6 +648,7 @@ MonoBehaviour:
   isAssis: 0
   log_ui: {fileID: 1450634328}
   duplicationDiapo: {fileID: 1244333409}
+  isDuplicationDiapoMove: 1
 --- !u!114 &249651320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3178,7 +3179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 681d31a9c80b056498fecae36088d756, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  alpha: 0.8
+  alpha: 0.85
 --- !u!1 &1244333412 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8701761529085436787, guid: abaa673ea02c25e4ca56f03b57fd7957,
@@ -3197,7 +3198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 681d31a9c80b056498fecae36088d756, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  alpha: 0.8
+  alpha: 0.85
 --- !u!1 &1349829974
 GameObject:
   m_ObjectHideFlags: 0
