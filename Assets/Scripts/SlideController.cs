@@ -28,12 +28,14 @@ public class SlideController : MonoBehaviourPunCallbacks
     public RectTransform BarreChargementFull;
     public RectTransform barreChargement;
     private float xBarreChargement;
+    private Texture2D textureShow;
     private void Awake()
     {
+        textureShow = new Texture2D(1, 1);
         rendererObj = this.GetComponent<Renderer>(); // Récuperation du renderer
         rendererObj.enabled = true; // Par défaut pas d'affichage d'image
         material = rendererObj.sharedMaterial; // Récuperation du material
-        material.SetTexture("_MainTex", null); // Pas de texture(=image) par défaut
+        material.SetTexture("_MainTex", textureShow); // Pas de texture(=image) par défaut
         StartCoroutine(GetDiapo());
 
         if (!logObj)
@@ -74,7 +76,10 @@ public class SlideController : MonoBehaviourPunCallbacks
         {
             if (isNeedChangeTexture)
             {
-                material.SetTexture("_MainTex", diapo[id_diapo_active]);
+                textureShow.Resize(diapo[id_diapo_active].width, diapo[id_diapo_active].height);
+                textureShow.LoadImage(diapo[id_diapo_active].EncodeToJPG());
+                //Graphics.CopyTexture(diapo[id_diapo_active], textureShow);
+                //material.SetTexture("_MainTex", diapo[id_diapo_active]);
                 isNeedChangeTexture = false;
             }
             if (!isOnlyMasterClientCanChangeDiapo || PhotonNetwork.IsMasterClient)
@@ -215,7 +220,10 @@ public class SlideController : MonoBehaviourPunCallbacks
                             isAllDownload = true;
                             rendererObj.enabled = true;
                             isNeedChangeTexture = true;
-                            material.SetTexture("_MainTex", diapo[0]);
+                            //material.SetTexture("_MainTex", diapo[0]);
+                            textureShow.Resize(diapo[0].width, diapo[0].height);
+                            textureShow.LoadImage(diapo[0].EncodeToJPG());
+
                             barreChargement.gameObject.SetActive(false);
                             BarreChargementFull.gameObject.SetActive(false);
                         }
