@@ -169,11 +169,11 @@ public class TableauController : MonoBehaviourPunCallbacks
     public void UpdateAll(byte[] t)
     {
         //Debug.LogError("Update all effectué avec taille=" + t.Length);
-        Destroy(texture);
+        /*Destroy(texture);
         texture = null;
-        texture = new Texture2D(2000, 1200);
+        texture = new Texture2D(2000, 1200);*/
         texture.LoadImage(t);
-        this.gameObject.GetComponent<Renderer>().material.SetTexture("_MainTex", texture);
+        //this.gameObject.GetComponent<Renderer>().sharedMaterial.SetTexture("_MainTex", texture);
     }
 
     [PunRPC]
@@ -254,7 +254,12 @@ public class TableauController : MonoBehaviourPunCallbacks
     [PunRPC]
     public void ClearTableau()
     {
-        texture = new Texture2D(2000, 1200);
-        this.gameObject.GetComponent<Renderer>().sharedMaterial.SetTexture("_MainTex", texture);
+        texture.Resize(1, 1);
+        texture.SetPixel(1, 1, Color.white);
+        texture.Apply();
+        texture.Resize(2000, 1200);
+
+
+
     }
 }

@@ -19,7 +19,7 @@ public class MenuControler : MonoBehaviour
     void Update()
     {
   
-        if (OVRInput.GetUp(OVRInput.Button.Start))  // Si la touche menu est enfoncée
+        if (OVRInput.GetUp(OVRInput.Button.Start) ||Input.GetKeyUp(KeyCode.M))  // Si la touche menu est enfoncée
         {
             menu.SetActive(!menu.activeSelf); // on active ou non le menu (le canvas) 
             EventSystem.GetComponent<UnityEngine.EventSystems.OVRInputModule>().enabled = !EventSystem.GetComponent<UnityEngine.EventSystems.OVRInputModule>().enabled;

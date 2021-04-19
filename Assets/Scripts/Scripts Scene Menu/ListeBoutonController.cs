@@ -32,7 +32,6 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
         if (Input.GetKeyUp(KeyCode.W))
         {
             avatarIndex = (avatarIndex + 1) % 4;
-            Debug.LogError(avatarIndex);
         }
         else if (Input.GetKeyUp(KeyCode.X))
         {
