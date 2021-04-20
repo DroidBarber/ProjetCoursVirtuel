@@ -26,36 +26,6 @@ public class MenuChoixScript : MonoBehaviour
     void Update()
     {
 
-        /*if (OVRInput.GetUp(OVRInput.Button.Start))  // Si la touche menu est enfoncée
-        {
-            menu.SetActive(!menu.activeSelf); // on active ou non le menu (le canvas) 
-            EventSystem.GetComponent<UnityEngine.EventSystems.OVRInputModule>().enabled = !EventSystem.GetComponent<UnityEngine.EventSystems.OVRInputModule>().enabled;
-            CameraRig.GetComponent<UnityEngine.EventSystems.OVRPhysicsRaycaster>().enabled = !CameraRig.GetComponent<UnityEngine.EventSystems.OVRPhysicsRaycaster>().enabled;
-            Curseur.SetActive(!Curseur.activeSelf);
-        }*/
-
-/*
-        if (OVRInput.GetUp(OVRInput.Button.One))
-        {
-           // menu.transform.position = new Vector3(Camera.GetComponent<Transform>().position.x, Camera.GetComponent<Transform>().position.y, Camera.GetComponent<Transform>().position.z);
-            logObj.AjoutLog("x = " + menu.transform.position.x + ", y = " + menu.transform.position.y + ", z = " + menu.transform.position.z);
-            logObj.AjoutLog("x = " + Camera.GetComponent<Transform>().position.x + ",y =  " + Camera.GetComponent<Transform>().position.y + ",z = " + Camera.GetComponent<Transform>().position.z);
-        }*/
-
-        //if (OVRInput.GetUp(OVRInput.Button.Two))
-        //    menu.transform.position = new Vector3(menu.transform.position.x + 0.25f, menu.transform.position.y, menu.transform.position.z);
-
-
-
-        //if (OVRInput.GetUp(OVRInput.Button.Three))
-        //    menu.transform.position = new Vector3(menu.transform.position.x, menu.transform.position.y + 0.25f, menu.transform.position.z);
-
-
-
-        //if (OVRInput.GetUp(OVRInput.Button.Four))
-        //    menu.transform.position = new Vector3(menu.transform.position.x, menu.transform.position.y, menu.transform.position.z + 0.25f);
-
-
     }
 
     void FixedUpdate()

@@ -140,7 +140,7 @@ public class TableauController : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsMasterClient)
         {
             this.GetComponent<PhotonView>().RPC("RequestSyncTableau", RpcTarget.MasterClient, PhotonNetwork.NetworkingClient.UserId);
-            Debug.LogError("RequestSyncTableau demandés");
+            //Debug.LogError("RequestSyncTableau demandés");
 
         }
     }
@@ -168,12 +168,12 @@ public class TableauController : MonoBehaviourPunCallbacks
     [PunRPC]
     public void UpdateAll(byte[] t)
     {
-        Debug.LogError("Update all effectué avec taille=" + t.Length);
-        Destroy(texture);
+        //Debug.LogError("Update all effectué avec taille=" + t.Length);
+        /*Destroy(texture);
         texture = null;
-        texture = new Texture2D(2000, 1200);
+        texture = new Texture2D(2000, 1200);*/
         texture.LoadImage(t);
-        this.gameObject.GetComponent<Renderer>().material.SetTexture("_MainTex", texture);
+        //this.gameObject.GetComponent<Renderer>().sharedMaterial.SetTexture("_MainTex", texture);
     }
 
     [PunRPC]
@@ -182,12 +182,12 @@ public class TableauController : MonoBehaviourPunCallbacks
         Vector2 pos = new Vector2(posX, posY);
         Color c = new Color(color.x, color.y, color.z, 1);
         c.a = 1;// dans le doute
-        //Debug.Log("Position:" + position);
+                //Debug.Log("Position:" + position);
         /*GameObject.Find("Log_UI").GetComponent<Log_UI>().ForceClear();
         GameObject.Find("Log_UI").GetComponent<Log_UI>().AjoutLog(position.ToString() + " color" + c.ToString());*/
 
         // z et y
-        
+
 
         //Debug.Log((int)pos.x + "   " + (int)pos.y);
         //texture.SetPixel((int)pos.x, (int)pos.y, c);
@@ -248,15 +248,18 @@ public class TableauController : MonoBehaviourPunCallbacks
             lstPoint.RemoveAt(0);
             lstPoint.RemoveAt(0);
             lstPoint.RemoveAt(0);
-
-
         }
     }
 
     [PunRPC]
     public void ClearTableau()
     {
-        texture = new Texture2D(2000, 1200);
-        this.gameObject.GetComponent<Renderer>().material.SetTexture("_MainTex", texture);
+        texture.Resize(1, 1);
+        texture.SetPixel(1, 1, Color.white);
+        texture.Apply();
+        texture.Resize(2000, 1200);
+
+
+
     }
 }
