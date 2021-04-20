@@ -55,7 +55,6 @@ public class Log_UI : MonoBehaviour
             }
         }
         
-
         if (textObj.text == "") // si aucun log, on désactive l'image background
             imageBackgroundLog.SetActive(false);
         else

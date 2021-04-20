@@ -12,6 +12,7 @@ public class TeleportPlace : MonoBehaviour
     public Log_UI log_ui;
     public Renderer duplicationDiapo;
     public bool isDuplicationDiapoMove = true;
+    public bool dupliActive = true;
 
     void Update()
     {
@@ -48,15 +49,23 @@ public class TeleportPlace : MonoBehaviour
         }
         else
         {
-            indexPlace = 0;
-            duplicationDiapo.gameObject.SetActive(false);
-            this.gameObject.SetActive(false);
-            //this.transform.position = new Vector3(0, 1, 0);
-            this.transform.position = pos;
-            this.gameObject.GetComponent<OVRPlayerController>().GravityModifier = 1;
-            this.gameObject.SetActive(true);
-            log_ui.AjoutLog("L: Position reelle : " + transform.position.ToString());
+            if (dupliActive)
+            {
+                indexPlace = 0;
+                duplicationDiapo.gameObject.SetActive(false);
+                this.gameObject.SetActive(false);
+                //this.transform.position = new Vector3(0, 1, 0);
+                this.transform.position = pos;
+                this.gameObject.GetComponent<OVRPlayerController>().GravityModifier = 1;
+                this.gameObject.SetActive(true);
+                log_ui.AjoutLog("L: Position reelle : " + transform.position.ToString());
+            }
 
         }
+    }
+
+    public void setDupliActive(bool val)
+    {
+        this.dupliActive = val;
     }
 }

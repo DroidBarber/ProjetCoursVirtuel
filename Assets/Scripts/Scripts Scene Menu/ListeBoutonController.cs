@@ -116,15 +116,7 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
         }
     }
 
-    /*
-     *
-     * Partie Multi 
-     *
-     *
-     *
-     */
-
-
+  
 
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)

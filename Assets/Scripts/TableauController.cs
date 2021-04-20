@@ -140,7 +140,7 @@ public class TableauController : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsMasterClient)
         {
             this.GetComponent<PhotonView>().RPC("RequestSyncTableau", RpcTarget.MasterClient, PhotonNetwork.NetworkingClient.UserId);
-            //Debug.LogError("RequestSyncTableau demandés");
+            Debug.LogError("RequestSyncTableau demandés");
 
         }
     }
@@ -168,12 +168,12 @@ public class TableauController : MonoBehaviourPunCallbacks
     [PunRPC]
     public void UpdateAll(byte[] t)
     {
-        //Debug.LogError("Update all effectué avec taille=" + t.Length);
-        /*Destroy(texture);
+        Debug.LogError("Update all effectué avec taille=" + t.Length);
+        Destroy(texture);
         texture = null;
-        texture = new Texture2D(2000, 1200);*/
+        texture = new Texture2D(2000, 1200);
         texture.LoadImage(t);
-        //this.gameObject.GetComponent<Renderer>().sharedMaterial.SetTexture("_MainTex", texture);
+        this.gameObject.GetComponent<Renderer>().material.SetTexture("_MainTex", texture);
     }
 
     [PunRPC]
@@ -248,18 +248,15 @@ public class TableauController : MonoBehaviourPunCallbacks
             lstPoint.RemoveAt(0);
             lstPoint.RemoveAt(0);
             lstPoint.RemoveAt(0);
+
+
         }
     }
 
     [PunRPC]
     public void ClearTableau()
     {
-        texture.Resize(1, 1);
-        texture.SetPixel(1, 1, Color.white);
-        texture.Apply();
-        texture.Resize(2000, 1200);
-
-
-
+        texture = new Texture2D(2000, 1200);
+        this.gameObject.GetComponent<Renderer>().material.SetTexture("_MainTex", texture);
     }
 }
