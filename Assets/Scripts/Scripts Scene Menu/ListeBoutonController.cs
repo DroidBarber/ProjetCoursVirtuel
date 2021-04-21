@@ -20,6 +20,13 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
     private int avatarIndex = 0;
     private bool isSalleTP = false;
 
+   
+    public GameObject scrollList;
+    public GameObject buttonCreate;
+    public GameObject buttonAvatar;
+    public GameObject canvasAvatar;
+    public GameObject canvasCreationSalle;
+
 
 
     void Start()
@@ -40,12 +47,6 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
         
     }
 
-
-
-    void FixedUpdate()
-    {
-        
-    }
 
     private void RefreshRoomListUI()
     {
@@ -116,7 +117,46 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
         }
     }
 
-  
+    public void choix309()
+    {
+        isSalleTP = false;
+
+    }
+
+    public void choixTP()
+    {
+        isSalleTP = true;
+
+    }
+
+    public void panelCreationSalle()
+    {
+        canvasCreationSalle.SetActive(true);
+        scrollList.SetActive(false);
+        buttonCreate.SetActive(false);
+        buttonAvatar.SetActive(false);
+
+    }
+
+    public void retour()
+    {
+        canvasAvatar.SetActive(false);
+        canvasCreationSalle.SetActive(false);
+        scrollList.SetActive(true);
+        buttonCreate.SetActive(true);
+        buttonAvatar.SetActive(true);
+
+    }
+
+    public void choixAvatar()
+    {
+        canvasAvatar.SetActive(true);
+        scrollList.SetActive(false);
+        buttonCreate.SetActive(false);
+        buttonAvatar.SetActive(false);
+    }
+
+
 
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
