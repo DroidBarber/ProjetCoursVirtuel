@@ -123,6 +123,26 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
 
     }
 
+    public void choixCapsule()
+    {
+        avatarIndex = 0;
+    }
+
+    public void choixRick()
+    {
+        avatarIndex = 1;
+    }
+
+    public void choixJessica()
+    {
+        avatarIndex = 2;
+    }
+
+    public void choixBilly()
+    {
+        avatarIndex = 3;
+    }
+
     public void choixTP()
     {
         isSalleTP = true;
@@ -148,15 +168,13 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
 
     }
 
-    public void choixAvatar()
+    public void panelchoixAvatar()
     {
         canvasAvatar.SetActive(true);
         scrollList.SetActive(false);
         buttonCreate.SetActive(false);
         buttonAvatar.SetActive(false);
     }
-
-
 
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
