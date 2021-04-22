@@ -52,10 +52,10 @@ public class TableauController : MonoBehaviourPunCallbacks
         //texture.SetPixel((int)pos.x, (int)pos.y, c);
         pos.x = (int)pos.x;
         pos.y = (int)pos.y;
-        //if (lstPoint.Count >= 1 && Vector2.Distance(lstPoint[lstPoint.Count - 1], pos) > tailleEcriture*2)
-        lstPoint.Add(new Vector2((int)pos.x, (int)pos.y));
-        /*if (lstPoint.Count == 0)
-            lstPoint.Add(new Vector2((int)pos.x, (int)pos.y));*/
+        if (lstPoint.Count >= 1 && Vector2.Distance(lstPoint[lstPoint.Count - 1], pos) > tailleEcriture)
+            lstPoint.Add(new Vector2((int)pos.x, (int)pos.y));
+        if (lstPoint.Count == 0)
+            lstPoint.Add(new Vector2((int)pos.x, (int)pos.y));
 
         // pour faire de l'épaisseur
         /*for (int x = -tailleEcriture; x < tailleEcriture; x++)
@@ -70,8 +70,10 @@ public class TableauController : MonoBehaviourPunCallbacks
         {
             for (int i = 0; i < lstPoint.Count - 3; i += 3) //changer valeurs boucle ?
             {
-                for (float u = 0; u <= 1; u += 0.008f)
+                float u;
+                for (int t = 0; t <= 50; t ++)
                 {
+                    u = t / 50.0f;
                     Vector2 newPos;
                     //pointcalcul x et y, modif listPoint[i+1] à partir du deuxième patch, i > 0
                     if (i == 0)
@@ -97,7 +99,8 @@ public class TableauController : MonoBehaviourPunCallbacks
                         {
                             if (Vector2.Distance(newPos, new Vector2(newPos.x + x, newPos.y + y)) < tailleEcriture)
                             {
-                                texture.SetPixel((int)newPos.x + x, (int)newPos.y + y, c);
+                                if (texture.GetPixel((int)newPos.x + x, (int)newPos.y + y) != c)
+                                    texture.SetPixel((int)newPos.x + x, (int)newPos.y + y, c);
                             }
 
                         }
