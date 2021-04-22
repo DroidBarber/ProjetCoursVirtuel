@@ -3731,6 +3731,7 @@ MonoBehaviour:
   Version: 1
   scrollList: {fileID: 2046780938}
   buttonCreate: {fileID: 1993285930}
+  buttonCreation: {fileID: 185067764}
   buttonAvatar: {fileID: 1532173898}
   canvasAvatar: {fileID: 202095822}
   canvasCreationSalle: {fileID: 1137429750}

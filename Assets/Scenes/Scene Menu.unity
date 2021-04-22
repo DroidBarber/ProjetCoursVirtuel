@@ -4198,11 +4198,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonTemplate: {fileID: 188687719}
   Version: 1
-  scrollList: {fileID: 0}
-  buttonCreate: {fileID: 0}
-  buttonAvatar: {fileID: 0}
-  canvasAvatar: {fileID: 0}
-  canvasCreationSalle: {fileID: 0}
+  scrollList: {fileID: 1456266719}
+  buttonCreate: {fileID: 326039611}
+  buttonCreation: {fileID: 394236569}
+  buttonAvatar: {fileID: 1366811878}
+  canvasAvatar: {fileID: 1731102053}
+  canvasCreationSalle: {fileID: 1853602575}
 --- !u!1001 &1487977736
 PrefabInstance:
   m_ObjectHideFlags: 0

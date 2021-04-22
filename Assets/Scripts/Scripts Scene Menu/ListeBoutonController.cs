@@ -23,6 +23,7 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
    
     public GameObject scrollList;
     public GameObject buttonCreate;
+    public GameObject buttonCreation;
     public GameObject buttonAvatar;
     public GameObject canvasAvatar;
     public GameObject canvasCreationSalle;
@@ -31,6 +32,7 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        buttonAvatar.GetComponentInChildren<Text>().text = "Choix Avatar (Capsule)";
         PhotonNetwork.AutomaticallySyncScene = true;
     }
 
@@ -117,12 +119,8 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
         }
     }
 
-    public void choix309()
-    {
-        isSalleTP = false;
 
-    }
-
+    // Fonctions canvas Choix Salle
     public void choixCapsule()
     {
         avatarIndex = 0;
@@ -143,28 +141,33 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
         avatarIndex = 3;
     }
 
+    // Fonctions canvas Création Salle
+    public void choix309()
+    {
+        isSalleTP = false;
+        buttonCreation.GetComponentInChildren<Text>().text = "Créer une Salle (309)";
+
+
+    }
+
     public void choixTP()
     {
         isSalleTP = true;
+        buttonCreation.GetComponentInChildren<Text>().text = "Créer une Salle (TP)";
 
     }
 
     public void panelCreationSalle()
     {
+        if (isSalleTP)
+            buttonCreation.GetComponentInChildren<Text>().text = "Créer une Salle (TP)";
+        else
+            buttonCreation.GetComponentInChildren<Text>().text = "Créer une Salle (309)";
+
         canvasCreationSalle.SetActive(true);
         scrollList.SetActive(false);
         buttonCreate.SetActive(false);
         buttonAvatar.SetActive(false);
-
-    }
-
-    public void retour()
-    {
-        canvasAvatar.SetActive(false);
-        canvasCreationSalle.SetActive(false);
-        scrollList.SetActive(true);
-        buttonCreate.SetActive(true);
-        buttonAvatar.SetActive(true);
 
     }
 
@@ -175,6 +178,38 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
         buttonCreate.SetActive(false);
         buttonAvatar.SetActive(false);
     }
+
+    public void retour()
+    {
+        string nomAvatar;
+        switch (avatarIndex)
+        {
+            case 0:
+                nomAvatar = "Choix Avatar (Capsule)";
+                break;
+            case 1:
+                nomAvatar = "Choix Avatar (Rick)";
+                break;
+            case 2:
+                nomAvatar = "Choix Avatar (Jessica)";
+                break;
+            case 3:
+                nomAvatar = "Choix Avatar (Billy)";
+                break;
+            default:
+                nomAvatar = "Erreur";
+                break;
+        }
+        buttonAvatar.GetComponentInChildren<Text>().text = nomAvatar;
+        canvasAvatar.SetActive(false);
+        canvasCreationSalle.SetActive(false);
+        scrollList.SetActive(true);
+        buttonCreate.SetActive(true);
+        buttonAvatar.SetActive(true);
+
+    }
+
+   
 
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
