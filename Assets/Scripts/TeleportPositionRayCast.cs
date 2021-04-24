@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Script fonctionnel mais qui ne marche pas complettement
+/// Il permet de se téléporter à une position dans la salle en la pointant, néanmoins en le faisant, 
+/// cela nous téléporte à une position opposé à l'endroit où nous avons "pointé" avec le controller
+/// </summary>
+/// 
 public class TeleportPositionRayCast : MonoBehaviour
 {
     public GameObject player;

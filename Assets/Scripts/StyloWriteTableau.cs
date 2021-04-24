@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+/// <summary>
+/// Ce script permet de gérer l'interraction entre un stylo et un tableau, s'il sont proche d'une certaine distance, et que le stylo est orienté vers le tableau, 
+/// cela afin de tracer sur la tableau
+/// </summary>
+
 public class StyloWriteTableau : MonoBehaviour
 {
     public Color c;
-    public float distanceDEcriture = 1.0f;
+    public float distanceDEcriture = 1.0f; // distance entre le stylo et la tableau, afin que cela trace sur le tableau
     public Log_UI log_ui;
 
     private GameObject previousHitTableau;
@@ -20,6 +25,9 @@ public class StyloWriteTableau : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Par un raycast, on vérifie que l'on est proche et bien orienté, et si c'est le cas, alors on dit au tableau où il doit mettre un point de tel couleur
+    /// </summary>
     // Update is called once per frame
     void Update()
     {
@@ -34,7 +42,7 @@ public class StyloWriteTableau : MonoBehaviour
             /*            log_ui.ForceClear();
                         log_ui.AjoutLog("Grab dans Write", 15);
             */
-            if (Physics.Raycast(ray, out hit, distanceDEcriture, layer_mask))
+            if (Physics.Raycast(ray, out hit, distanceDEcriture, layer_mask)) // si il y a une collision avec le raycast
             {
                 //log_ui.AjoutLog("Collide Ray cast", 15);
                 if (hit.collider.gameObject.tag == "Tableau")

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+/// <summary>
+/// Permet de synchroniser la couleur du 1er avatar qui n'est rien d'autre qu'une capsule
+/// </summary>
 public class SyncColor : MonoBehaviour
 {
     // Start is called before the first frame update

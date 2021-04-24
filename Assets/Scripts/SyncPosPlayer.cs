@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-
+/// <summary>
+/// Ce script permet de "recopier" la position et la rotation du joueur et de ses controllers, afin de les synchroniser avec
+/// un modèle simplifier qui lui sera instancié et synchronisé en multijoueur
+/// </summary>
 public class SyncPosPlayer : MonoBehaviour
 {
     private GameObject player;
@@ -13,11 +16,11 @@ public class SyncPosPlayer : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        if (!this.gameObject.GetComponent<PhotonView>().IsMine)
+        if (!this.gameObject.GetComponent<PhotonView>().IsMine) // si ce n'est pas mon gameobject, alors je ne dois rien faire
             Destroy(this);
         else
         {
-            if (!this.GetComponent<Renderer>())
+            if (!this.GetComponent<Renderer>()) // nécessaire selon les avatars (notamment entre celui de la capsule et les "vrai" avatar)
             {
                 for (int i = 0; i < this.gameObject.transform.childCount; i++)
                 {
@@ -36,6 +39,9 @@ public class SyncPosPlayer : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Mise à jour en continue des données, afin qu'elle soit synchronisé ensuite par le photon transform view
+    /// </summary>
     // Update is called once per frame
     void Update()
     {
@@ -49,6 +55,10 @@ public class SyncPosPlayer : MonoBehaviour
             m_rightHandAnchor.transform.rotation = rightHandAnchor.transform.rotation;
         }
     }
+
+    /// <summary>
+    /// Permet de rechercher et associer les différents gameobjects
+    /// </summary>
     public void setup(GameObject player)
     {
         this.player = player;
@@ -74,6 +84,10 @@ public class SyncPosPlayer : MonoBehaviour
             isSetup = true;
     }
 
+    /// <summary>
+    /// Permet de faire une recherche réccursive dans une arboressence de Gameobject
+    /// </summary>
+    /// <returns></returns>
     private GameObject SearchInChild(string name, GameObject parent)
     {
         if (parent.name == name)

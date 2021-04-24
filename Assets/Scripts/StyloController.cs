@@ -4,10 +4,18 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
+
+/// <summary>
+/// Ce script permet de gérer un stylo (est-ce qu'il est pris ou non notamment)
+/// </summary>
 public class StyloController : MonoBehaviourPunCallbacks
 {
     private string id_player_owner="";
 
+    /// <summary>
+    /// Tant qu'on est pas connecté à une room, on désactive son renderer, pour faire comme s'il n'est pas là
+    /// on peux pas désactivé le gameobject, sinon on ne pourra plus le réactivé que avec un autre script sur un autre gameobject, ce qui n'est pas pratique
+    /// </summary>
     private void Awake()
     {
         this.gameObject.GetComponent<Renderer>().enabled = false;
@@ -24,17 +32,23 @@ public class StyloController : MonoBehaviourPunCallbacks
         
     }
 
+    /// <summary>
+    /// Informe que ce stylo a été pris/grab
+    /// </summary>
+    /// <param name="id_player">L'identifiant du joueur qui a pris le stylo</param>
     [PunRPC]
     public void Grab(string id_player)
     {
         id_player_owner = id_player;
         this.gameObject.GetComponent<Collider>().isTrigger = true;
-        Destroy(this.gameObject.GetComponent<Rigidbody>());
+        Destroy(this.gameObject.GetComponent<Rigidbody>()); // sinon le stylo pris tomberais des "mains" à cause de la gravité
 
         Log_UI log_ui = GameObject.Find("Log_UI").GetComponent<Log_UI>();
         log_ui.AjoutLog("grab by " + id_player, 15);
     }
-
+    /// <summary>
+    /// Informe que ce stylo a été laché, il reprend donc la gravité afin de tomber sur une table par exemple
+    /// </summary>
     [PunRPC]
     public void GrabEnd()
     {
@@ -54,11 +68,16 @@ public class StyloController : MonoBehaviourPunCallbacks
     {
         if (!PhotonNetwork.IsMasterClient)
         {
+            // demande afin de savoir si le stylo est pris ou non
             this.GetComponent<PhotonView>().RPC("RequireSync", RpcTarget.MasterClient, PhotonNetwork.NetworkingClient.UserId);
         }
         this.gameObject.GetComponent<Renderer>().enabled = true;
     }
 
+    /// <summary>
+    /// Renvoie au joueur qui l'a demandé l'information sur l'état (grab ou pas) du stylo
+    /// </summary>
+    /// <param name="id_player"></param>
     [PunRPC]
     public void RequireSync(string id_player)
     {
@@ -91,6 +110,10 @@ public class StyloController : MonoBehaviourPunCallbacks
         
     }
 
+    /// <summary>
+    /// Si un joueur quitte la room, il faut que les stylo qu'il a grab soit laché
+    /// </summary>
+    /// <param name="otherPlayer"></param>
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         //Debug.LogWarning("OnPlayerLeftRoom, is master=" + PhotonNetwork.IsMasterClient + " id same=" + otherPlayer.UserId.Equals(id_player_owner));

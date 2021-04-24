@@ -4,10 +4,13 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
+/// <summary>
+/// Ce script permet la gestion du tableau, et en particulier de la texture qui y est affiché, et sur laquelle on peux écrire avec un stylo
+/// </summary>
 public class TableauController : MonoBehaviourPunCallbacks
 {
     private Texture2D texture;
-    public GameObject coinHautGauche, coinHautDroite, coinBasGauche, coinBasDroite;
+    public GameObject coinHautGauche, coinHautDroite, coinBasGauche, coinBasDroite; // nécessaire afin de faire la convertion d'un point 3d en position 2d sur l'image
     private int tailleEcriture = 6, pointCalculx, pointCalculy;
     private List<Vector2> lstPoint = new List<Vector2>();
     private bool needApplyTexture = false;
@@ -24,6 +27,7 @@ public class TableauController : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
+            // Si on appuie sur "B" alors on efface tout ce qui a été écrit au tableau
             if (OVRInput.GetUp(OVRInput.RawButton.B) || Input.GetKeyUp(KeyCode.B))
             {
                 this.GetComponent<PhotonView>().RPC("ClearTableau", RpcTarget.All);
@@ -32,6 +36,10 @@ public class TableauController : MonoBehaviourPunCallbacks
         }
     }
 
+    /// <summary>
+    /// Fonction qui écrit et demande aux autres joueurs aussi d'écrire vis à vis d'une coordonnée 3d
+    /// On fait une épaisseur au point afin que celui-ci se voit, et pour "relier les points" on utilise la formule de Bezier
+    /// </summary>
     public void Write(Vector3 position, Color c)
     {
         c.a = 1;// dans le doute
@@ -46,6 +54,7 @@ public class TableauController : MonoBehaviourPunCallbacks
         pos.x *= texture.width;
         pos.y *= texture.height;
 
+        // Une fois le point sur l'image trouvé, on en informe les autres afin que ceux-ci effectue les même tracées
         this.GetComponent<PhotonView>().RPC("UpdateWrite", RpcTarget.Others, (int)pos.x, (int)pos.y, new Vector3(c.r, c.g, c.b));
 
         //Debug.Log((int)pos.x + "   " + (int)pos.y);
@@ -117,6 +126,9 @@ public class TableauController : MonoBehaviourPunCallbacks
 
         }
     }
+    /// <summary>
+    /// Sans texture.Apply(), la texture n'est jamais mis à jour, il faut donc le faire
+    /// </summary>
     public void FixedUpdate()
     {
         if (needApplyTexture)
@@ -126,6 +138,9 @@ public class TableauController : MonoBehaviourPunCallbacks
         }
     }
 
+    /// <summary>
+    /// Lorsque l'on n'écrit plus, que le stylo est en dehors de sa zone d'écriture, alors on ne stocke plus rien
+    /// </summary>
     public void WriteEnd()
     {
         this.GetComponent<PhotonView>().RPC("WriteEndRPC", RpcTarget.Others);
@@ -138,6 +153,9 @@ public class TableauController : MonoBehaviourPunCallbacks
         lstPoint.Clear();
     }
 
+    /// <summary>
+    /// Demande au MasterClient afin d'avoir une copie de la texture du tableau, car si l'on viens d'arriver, on est pas à jour
+    /// </summary>
     public override void OnJoinedRoom()
     {
         if (!PhotonNetwork.IsMasterClient)
@@ -147,6 +165,11 @@ public class TableauController : MonoBehaviourPunCallbacks
 
         }
     }
+
+    /// <summary>
+    /// On envoie la texture à celui/celle qui nous l'a demandé
+    /// </summary>
+    /// <param name="id_player"></param>
     [PunRPC]
     public void RequestSyncTableau(string id_player)
     {
@@ -168,6 +191,10 @@ public class TableauController : MonoBehaviourPunCallbacks
         }
     }
 
+    /// <summary>
+    /// On change le texture par celle reçu via le réseau
+    /// </summary>
+    /// <param name="t"></param>
     [PunRPC]
     public void UpdateAll(byte[] t)
     {
@@ -179,6 +206,9 @@ public class TableauController : MonoBehaviourPunCallbacks
         //this.gameObject.GetComponent<Renderer>().sharedMaterial.SetTexture("_MainTex", texture);
     }
 
+    /// <summary>
+    /// Fonction de réplication de l'écriture pour les personnes en réseau
+    /// </summary>
     [PunRPC]
     public void UpdateWrite(int posX, int posY, Vector3 color)
     {
@@ -254,6 +284,9 @@ public class TableauController : MonoBehaviourPunCallbacks
         }
     }
 
+    /// <summary>
+    /// Effacement du tableau
+    /// </summary>
     [PunRPC]
     public void ClearTableau()
     {
