@@ -77,6 +77,8 @@ public class Log_UI : MonoBehaviour
     {
         listeLog.Clear();
         listeChrono.Clear();
+
+        // le log n'est effectué que dans l'éditeur de Unity
 #if UNITY_EDITOR
         Debug.LogWarning("Utilisation de ForceClear dans Log_UI, faites attentions!!!");
 #endif
