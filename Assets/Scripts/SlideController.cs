@@ -9,38 +9,45 @@ using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
 
+
+/// <summary>
+/// Ce script permet de gérer le diaporama (téléchargement, et gestion pour passer les diapositives)
+/// </summary>
+
 [RequireComponent(typeof(Renderer))] // Oblige que l'objet qui possède ce script à posséder un Renderer, et s'il n'en a pas, en crée un
 [RequireComponent(typeof(PhotonView))]
 public class SlideController : MonoBehaviourPunCallbacks
 {
-    public List<Texture2D> diapo = new List<Texture2D>();
+
+    public List<Texture2D> diapo = new List<Texture2D>(); // la liste des images du diaporama
     public bool isAutoChangeSlide = false;
-    public bool isOnlyMasterClientCanChangeDiapo = false;
+    public bool isOnlyMasterClientCanChangeDiapo = false; // est-ce que que seul le masterClient peux changer le diaporama?
     public float speedAutoChangeSlide = 5.0f;
     private Material material;
     private Renderer rendererObj;
     private int id_diapo_active = 0;
     //private float timer = 0.0f; //initialise le timer à zéro
-    private bool isAllDownload = false;
-    private bool isNeedChangeTexture = false;
+    private bool isAllDownload = false; // est ce que toutes les diapositives sont téléchargé?
+    private bool isNeedChangeTexture = false; // est-ce qu'il faut changer de diapositive affiché?
     public Log_UI logObj;
     public TextMeshProUGUI textLogSurDiapo;
     public RectTransform BarreChargementFull;
     public RectTransform barreChargement;
     private float xBarreChargement;
-    private Texture2D textureShow;
+    private Texture2D textureShow; // la texture de l'image fu diaporama affiché en ce moment
+
     private void Awake()
     {
         textureShow = new Texture2D(1, 1);
         rendererObj = this.GetComponent<Renderer>(); // Récuperation du renderer
         rendererObj.enabled = true; // Par défaut pas d'affichage d'image
         material = rendererObj.sharedMaterial; // Récuperation du material
-        material.SetTexture("_MainTex", textureShow); // Pas de texture(=image) par défaut
-        StartCoroutine(GetDiapo());
+        material.SetTexture("_MainTex", textureShow); 
+
+        StartCoroutine(GetDiapo()); // lance un "thread" en parallèle chargé de télécharger les diapositives
 
         if (!logObj)
             Debug.LogError("logObj non assigné");
-
         if (!textLogSurDiapo)
             Debug.LogError("logObj non assigné");
         if(!BarreChargementFull)
@@ -48,12 +55,14 @@ public class SlideController : MonoBehaviourPunCallbacks
         if (!barreChargement)
             Debug.LogError("logObj non assigné");
 
-        barreChargement.anchorMax = new Vector2((float)0.1, (float)0.2);
-        //BarreChargement.rect.width = 0;
-        
-        xBarreChargement = (float)0.1; //0.1f
-}
+        barreChargement.anchorMax = new Vector2(0.1f, 0.2f);
 
+        xBarreChargement = 0.1f;
+    }
+
+    /// <summary>
+    /// Losque l'on rejoint une room, si l'on n'est pas le MasterClient, alors on demande au MasterClient quel diapositive est affiché
+    /// </summary>
     public override void OnJoinedRoom()
     {
         // Si c'est le MasterClient, c'est lui la référence, donc il va pas se demander à lui même
@@ -65,14 +74,10 @@ public class SlideController : MonoBehaviourPunCallbacks
         }
     }
 
-    void Start()
-    {
-        
-    }
 
     void Update()
     {
-        if (isAllDownload)
+        if (isAllDownload) // si tout est téléchargé
         {
             if (isNeedChangeTexture)
             {
@@ -82,6 +87,7 @@ public class SlideController : MonoBehaviourPunCallbacks
                 //material.SetTexture("_MainTex", diapo[id_diapo_active]);
                 isNeedChangeTexture = false;
             }
+
             if (!isOnlyMasterClientCanChangeDiapo || PhotonNetwork.IsMasterClient)
             {
                 if (Input.GetKeyUp(KeyCode.P))//appuyer sur P pour activer ou desactiver le diapo
@@ -90,7 +96,6 @@ public class SlideController : MonoBehaviourPunCallbacks
                 }
                 else if (Input.GetKeyUp(KeyCode.O) || OVRInput.GetUp(OVRInput.RawButton.X)) //diapo suivante
                 {
-
                     DiapoNext();
                 }
                 else if (Input.GetKeyUp(KeyCode.I) || OVRInput.GetUp(OVRInput.RawButton.Y)) //diapo précédente
@@ -122,6 +127,9 @@ public class SlideController : MonoBehaviourPunCallbacks
         photonView.RPC("SyncDiapo", RpcTarget.All, id_diapo_active);
     }
 
+    /// <summary>
+    /// Fonction appelé en réseau afin de tenirà jour chez tout le monde la diapositive affiché
+    /// </summary>
     [PunRPC]
     private void SyncDiapo(int id_diapo_active)
     {
@@ -146,8 +154,18 @@ public class SlideController : MonoBehaviourPunCallbacks
         }
     }
     
+    /// <summary>
+    /// Fonction qui télécharge les diapositives à partir d'une URL
+    /// </summary>
     private IEnumerator GetDiapo()
     {
+        /// https://pastebin.com/raw/8e3DsJ2V est l'URL qui ne mène qu'à un fichier type .txt qui a une URL par ligne
+        /* cet URL mène donc juste à un fichier contenant une URL par ligne:
+         *  https://media.gettyimages.com/vectors/presentation-title-slide-design-template-with-retro-midcentury-vector-id1220485840?s=2048x2048
+            https://media.gettyimages.com/vectors/abstract-retro-midcentury-geometric-graphics-vector-id1211608021?s=2048x2048
+            https://media.gettyimages.com/vectors/presentation-title-slide-design-template-with-retro-midcentury-vector-id1264569265?s=2048x2048
+            https://media.gettyimages.com/vectors/neon-color-geometric-round-rectangle-on-metal-stripe-pattern-portal-vector-id1207741638?s=2048x2048
+         */
         UnityWebRequest www = UnityWebRequest.Get("https://pastebin.com/raw/8e3DsJ2V");
         yield return www.SendWebRequest(); // envoie de la requète à l'URL
 
@@ -172,7 +190,7 @@ public class SlideController : MonoBehaviourPunCallbacks
                 StringSplitOptions.RemoveEmptyEntries));
 
             int nbDiapo = linesURL.Count;
-            float longueurDiapo = (float)0.8;
+            float longueurDiapo = 0.8f;
             float avancementchargement = longueurDiapo / nbDiapo;
 
             // Pour chaque URL d'image, on la télécharge et la range dans la variable diapo
@@ -231,20 +249,5 @@ public class SlideController : MonoBehaviourPunCallbacks
                 }
             }
         }
-    }
-    private void FixedUpdate()
-    {
-        //execute la fonction uniquement si le tableau est activé et si le diapo est chargé
-        if (!rendererObj.enabled || diapo.Count <= 0) return;
-
-        //if (isAutoChangeSlide && isAllDownload)
-        //{
-        //    timer += Time.fixedDeltaTime;
-        //    if (timer < speedAutoChangeSlide) return;
-        //    id_diapo_active = (id_diapo_active + 1) % diapo.Count; //index diapo suivante
-        //    material.SetTexture("_maintex", diapo[id_diapo_active]); //charge la diapo suivante
-        //    timer -= speedAutoChangeSlide;
-        //    logObj.AjoutLog("id_diapo_active : " + id_diapo_active, speedAutoChangeSlide);// affichage des logs dans le canvas
-        //}
     }
 }

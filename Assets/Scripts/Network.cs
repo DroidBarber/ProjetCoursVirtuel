@@ -4,6 +4,10 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
+/// <summary>
+/// Ce script régit les premiers instant en multijoueur dans une room, afin entre autres d'instancier chez les
+/// autres joueurs l'avatar que nous avons choisis (chez les autres uniquement, car on ne se vois pas nous même)
+/// </summary>
 public class Network : MonoBehaviourPunCallbacks
 {
     public Log_UI logObj;
@@ -15,14 +19,18 @@ public class Network : MonoBehaviourPunCallbacks
     {
         if (!logObj)
             Debug.LogError("logObj non assigné");
+
+
         foreach (GameObject go in playerPrefabList)
         {
             if (!go)
                 Debug.LogError("un playerPrefab dans playerPrefabList non assigné");
         }
+
         if (!playerOVR)
             Debug.LogError("playerOVR non assigné");
 
+        // Le script RoomNameToJoin contient l'index de l'avatar à utiliser, et ce paramètre provient d'un choix lors du menu
         GameObject g = GameObject.Find("RoomNameToJoin");
         avatarIndex = g.GetComponent<RoomNameToJoin>().avatarIndex;
     }
@@ -33,22 +41,13 @@ public class Network : MonoBehaviourPunCallbacks
         //Pour afficher l'état de la connection au fur et à mesure
         //logObj.AjoutLog(PhotonNetwork.NetworkingClient.State.ToString(),1);
 
-
-        if (PhotonNetwork.NetworkingClient.InRoom)
-        {
-
-            // juste pour le test, et le force 
-            /*logObj.ForceClear();*/
-            /*logObj.AjoutLog("BTN A: " + OVRInput.Get(OVRInput.RawButton.A), 1);
-            logObj.AjoutLog("BTN B: " + OVRInput.Get(OVRInput.RawButton.B), 1);
-            logObj.AjoutLog("BTN X: " + OVRInput.Get(OVRInput.RawButton.X), 1);
-            logObj.AjoutLog("BTN Y: " + OVRInput.Get(OVRInput.RawButton.Y), 1);*/
-            
-
-        }
-        
         
     }
+
+    /// <summary>
+    /// Fonction appelé dès lors que l'on rentre dans une room
+    /// on s'en sert afin d'instancier chez les autres joueur/client l'avatar qu'on a sélectionné
+    /// </summary>
     public override void OnJoinedRoom()
     {
         logObj.AjoutLog("Connecté à la room: " + PhotonNetwork.CurrentRoom.Name, 50);
@@ -64,7 +63,7 @@ public class Network : MonoBehaviourPunCallbacks
             p = PhotonNetwork.Instantiate(playerPrefabList[0].name, playerPrefabList[0].transform.position, Quaternion.identity);
         }
 
-        p.GetComponent<SyncPosPlayer>().setup(playerOVR);
+        p.GetComponent<SyncPosPlayer>().setup(playerOVR); // setup de la synchronisation position/rotation joueur et controllers
     }
 
     public override void OnDisconnected(DisconnectCause cause)

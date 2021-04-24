@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Ce script permet de déplacer le joueur dans les version PC
+/// Pour ce faire, il suffit d'utiliser les flèches directionnelle du clavier, et la souris
+/// </summary>
 public class MovePlayerPC : MonoBehaviour
 {
     public float speedMove = 1.0f;

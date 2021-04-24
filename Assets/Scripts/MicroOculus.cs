@@ -7,6 +7,9 @@ using Photon.Voice.Unity;
 using UnityEngine.Android;
 #endif
 
+/// <summary>
+/// Permet de régler le micro utilisé pour le vocal lorsque c'est le casque Oculus qui est utilisé
+/// </summary>
 public class MicroOculus : MonoBehaviour
 {
     Recorder r;
@@ -14,11 +17,16 @@ public class MicroOculus : MonoBehaviour
     void Awake()
     {
         r = this.gameObject.GetComponent<Recorder>();
+
+        ///
+
+        // si le build est fait pour Android, car le casque fonctionne sous Android
+        // cela permet d'avoir où non des lignes en fonction de la plateforme de destination
 #if PLATFORM_ANDROID
         if (!Permission.HasUserAuthorizedPermission(Permission.Microphone))
         {
             Permission.RequestUserPermission(Permission.Microphone);
-        }
+        } // 
 
         if (UnityEngine.Microphone.devices.Length >=3)
         {
