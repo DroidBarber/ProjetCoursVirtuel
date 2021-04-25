@@ -5,7 +5,9 @@ using Photon.Realtime;
 using Photon.Pun;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
+/// <summary>
+/// Script qui gère la scène de connexion. Il gère les différents canvas, et permet de créer ou rejoindre une salle .
+/// </summary>
 
 public class ListeBoutonController : MonoBehaviourPunCallbacks
 {
@@ -20,6 +22,7 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
     private int avatarIndex = 0;
     private bool isSalleTP = false;
 
+    // Variables des objets de la scènes
    
     public GameObject scrollList;
     public GameObject buttonCreate;
@@ -29,35 +32,27 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
     public GameObject canvasCreationSalle;
 
 
-
+    // Fonction appelé au lancement de la scène
     void Start()
     {
+
         buttonAvatar.GetComponentInChildren<Text>().text = "Choix Avatar (Capsule)";
         PhotonNetwork.AutomaticallySyncScene = true;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.W))
-        {
-            avatarIndex = (avatarIndex + 1) % 4;
-        }
-        else if (Input.GetKeyUp(KeyCode.X))
-        {
-            isSalleTP = !isSalleTP;
-        }
-        
-    }
 
-
+    // Fonction qui met à jour la liste des listes existantes
     private void RefreshRoomListUI()
     {
+
+        // destruction des boutons et raz de la liste
         foreach (GameObject btn in listeButtonRoom)
         {
             Destroy(btn);
         }
         listeButtonRoom.Clear();
 
+        // création des boutons pour chaque salle
         foreach (string nomRoom in listeNomRoom)
         {
 
@@ -72,6 +67,8 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
         }
     }
 
+
+    // Fonction appelée lors du click sur un bouton pour rejoindre une room.
     public void ButtonClicked(string nameRoom) 
     {
         //Debug.LogError("Click sur " + myTextString);
@@ -80,29 +77,25 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
         g.GetComponent<RoomNameToJoin>().roomName = nameRoom;
         g.GetComponent<RoomNameToJoin>().avatarIndex = avatarIndex;
 
-        /*if (isSalleTP)
-        {
-            SceneManager.LoadScene("Salle TP");
-        }
-        else
-        {
-            SceneManager.LoadScene("Salle 309");
-        }*/
         PhotonNetwork.JoinRoom(nameRoom);
 
 
         // il faut que cette scène soit dans les scène du build setting dans file de unity
     }
 
+    // Création d'une room 
     public void CreateRandomRoom()
     {
+        //Vérification de la connexion a PUN et au lobby
         if (PhotonNetwork.IsConnectedAndReady && PhotonNetwork.InLobby)
         {
+            // Définitoon du nom de la salle (Room n° + nb aléatoire)
             string roomName = "Room " + Random.Range(1000, 10000);
             while (listeNomRoom.Contains(roomName))
             {
                 roomName = "Room " + Random.Range(1000, 10000);
             }
+            // Création de la room PUN et chargement de la scène choisie
             GameObject g = new GameObject("RoomNameToJoin");
             g.AddComponent<RoomNameToJoin>();
             g.GetComponent<RoomNameToJoin>().roomName = roomName;
@@ -121,6 +114,8 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
 
 
     // Fonctions canvas Choix Salle
+
+    // Fonctions liés aux boutons de choix d'avatar -> une fonction pour chaque bouton, peut être améliorée
     public void choixCapsule()
     {
         avatarIndex = 0;
@@ -142,6 +137,7 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
     }
 
     // Fonctions canvas Création Salle
+    // Fonctions liés aux boutons de choix de salle pour la création -> une fonction pour chaque bouton, peut être améliorée
     public void choix309()
     {
         isSalleTP = false;
@@ -157,6 +153,8 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
 
     }
 
+
+    // Chargement du canvas de création de salle
     public void panelCreationSalle()
     {
         if (isSalleTP)
@@ -164,24 +162,35 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
         else
             buttonCreation.GetComponentInChildren<Text>().text = "Créer une Salle (309)";
 
-        canvasCreationSalle.SetActive(true);
+        // Désactivation des éléments du canvas de la liste des salles
         scrollList.SetActive(false);
         buttonCreate.SetActive(false);
         buttonAvatar.SetActive(false);
 
+        // Activation du canvas de création de salle
+        canvasCreationSalle.SetActive(true);
+
+       
+
     }
 
+    // Chargement du canvas de choix d'avatar
     public void panelchoixAvatar()
     {
+        // Activation du canvas dechoix d'avatar
         canvasAvatar.SetActive(true);
+
+        // Désactivation des éléments du canvas de la liste des salles
         scrollList.SetActive(false);
         buttonCreate.SetActive(false);
         buttonAvatar.SetActive(false);
     }
-
+    // Retour à la liste des salles
     public void retour()
     {
         string nomAvatar;
+
+        // Pour indiquer quel avatar est choisi
         switch (avatarIndex)
         {
             case 0:
@@ -201,8 +210,11 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
                 break;
         }
         buttonAvatar.GetComponentInChildren<Text>().text = nomAvatar;
+        // désactivation des canvas 
         canvasAvatar.SetActive(false);
         canvasCreationSalle.SetActive(false);
+
+        // activation des éléments de la liste des salles
         scrollList.SetActive(true);
         buttonCreate.SetActive(true);
         buttonAvatar.SetActive(true);
@@ -212,6 +224,7 @@ public class ListeBoutonController : MonoBehaviourPunCallbacks
    
 
 
+    // Focntion qui met à jour la liste des salles lorqu'un changement (création/destruction)
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         base.OnRoomListUpdate(roomList);
