@@ -42,15 +42,26 @@ public class TeleportPlace : MonoBehaviour
             this.gameObject.GetComponent<OVRPlayerController>().GravityModifier = 0;
             this.transform.position = pos;
             this.gameObject.SetActive(true);
-            if (isDuplicationDiapoMove)
-                duplicationDiapo.transform.position = transform.position + placesController.offsetDuplicateDiapo;
-            duplicationDiapo.gameObject.SetActive(true);
-            log_ui.AjoutLog("K: Position reelle : " + transform.position.ToString());
+
+            if (dupliActive)
+            {
+                if (isDuplicationDiapoMove)
+                    duplicationDiapo.transform.position = transform.position + placesController.offsetDuplicateDiapo;
+                duplicationDiapo.gameObject.SetActive(true);
+                log_ui.AjoutLog("K: Position reelle : " + transform.position.ToString());
+            }
+
+            else
+            {
+                if (isDuplicationDiapoMove)
+                    duplicationDiapo.transform.position = transform.position + placesController.offsetDuplicateDiapo;
+                duplicationDiapo.gameObject.SetActive(false);
+                log_ui.AjoutLog("K: Position reelle : " + transform.position.ToString());
+            }
         }
         else
         {
-            if (dupliActive)
-            {
+           
                 indexPlace = 0;
                 duplicationDiapo.gameObject.SetActive(false);
                 this.gameObject.SetActive(false);
@@ -61,7 +72,7 @@ public class TeleportPlace : MonoBehaviour
                 log_ui.AjoutLog("L: Position reelle : " + transform.position.ToString());
             }
 
-        }
+        
     }
 
     public void setDupliActive(bool val)
