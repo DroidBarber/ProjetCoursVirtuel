@@ -1,4 +1,12 @@
 # ProjetCoursVirtuel
+Mehdi BARIM
+Vivien MAUGARNIS
+Mathilde NICOLAS
+Baptiste PATERNE
+Antoine TABARAUD
+Nicolas VEDRENNE
+
+
 # Règles pour l'utilisation de GitHub : 
 
  1 - Après des modifications en local, sur son PC : on commit en local
