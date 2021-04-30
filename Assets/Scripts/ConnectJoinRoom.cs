@@ -3,85 +3,50 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Realtime;
 using Photon.Pun;
+using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Ce script sert à la création ainsi qu'à rejoindre une room dont le nom de la room proviendra du script RoomNameToJoin
+/// Ce script n'est utile que lorsque le "joueur" est celui qui crée la room, sinon il n'aura pas d'effet particulier, 
+/// hormis 2 debug.
+/// </summary>
 public class ConnectJoinRoom : MonoBehaviourPunCallbacks
 {
     [Tooltip("Si on affiche les Debug.Log() ou non")]
     public bool isShowDebugLogInUnity = true; // Si on affiche les Debug.Log()
 
-    public bool isAutoJoinOrCreateRoom = true;
-
-    /// <summary>Used as PhotonNetwork.GameVersion.</summary>
+    /// <summary>
+    /// Used as PhotonNetwork.GameVersion. Il faut le changer à chaque version qui change des 
+    /// fonctionnalité multijoueur afin que deux "joueurs" n'ayant pas les même version de ce logiciel ne puisse
+    /// se retrouver ensemble et ainsi générer des bug car ils n'ont pas les même utilisations du réseau PhotonEngine
+    /// </summary>
     public byte Version = 1;
 
     /// <summary>Max number of players allowed in room. Once full, a new room will be created by the next connection attemping to join.</summary>
     [Tooltip("The max number of players allowed in room. Once full, a new room will be created by the next connection attemping to join.")]
     public byte MaxPlayers = 20;
 
-    public int playerTTL = -1;
+    public int playerTTL = -1; // Time To Live des objets d'un joueur déconnecté
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        if (isShowDebugLogInUnity)
+        // On recherche la room à laquel on doit se connecter si nous ne somme pas dans une room, c'est à dire que
+        // nous allons être MasterClient et que c'est nous qui allons créer la room
+        if (!PhotonNetwork.InRoom)
         {
-            Debug.Log("ConnectAndJoinRandom.ConnectNow() will now call: PhotonNetwork.ConnectUsingSettings().");
-        }
-        
-
-        PhotonNetwork.ConnectUsingSettings();
-        PhotonNetwork.GameVersion = this.Version + "." + SceneManagerHelper.ActiveSceneBuildIndex;
-    }
-
-
-    public override void OnConnectedToMaster()
-    {
-        if (isShowDebugLogInUnity)
-        {
-            Debug.Log("OnConnectedToMaster() was called by PUN. This client is now connected to Master Server in region [" +
-                PhotonNetwork.CloudRegion + "] and can join a room. Calling: PhotonNetwork.JoinRandomRoom();");
-        }
-        if (isAutoJoinOrCreateRoom)
-        {
-            AutoJoinOrCreateRoom();
+            GameObject g = GameObject.Find("RoomNameToJoin");
+            string roomName = g.GetComponent<RoomNameToJoin>().roomName;
+            CreateRoom(roomName);
         }
     }
 
-    public override void OnJoinedLobby()
-    {
-        if (isShowDebugLogInUnity)
-        {
-            Debug.Log("OnJoinedLobby(). This client is now connected to Relay in region [" +
-                PhotonNetwork.CloudRegion + "]. This script now calls: PhotonNetwork.JoinRandomRoom();");
-        }
-        if (isAutoJoinOrCreateRoom)
-        {
-            AutoJoinOrCreateRoom();
-        }
-    }
-
-    public override void OnJoinRandomFailed(short returnCode, string message)
-    {
-        if (isShowDebugLogInUnity)
-        {
-            Debug.Log("OnJoinRandomFailed() was called by PUN. No random room available in region [" +
-                PhotonNetwork.CloudRegion + "], so we create one. Calling: PhotonNetwork.CreateRoom(null, new RoomOptions() {maxPlayers = 4}, null);");
-        }
-
-        RoomOptions roomOptions = new RoomOptions() { MaxPlayers = this.MaxPlayers };
-        if (playerTTL >= 0)
-            roomOptions.PlayerTtl = playerTTL;
-
-        PhotonNetwork.CreateRoom(null, roomOptions, null);
-    }
-
-    // the following methods are implemented to give you some context. re-implement them as needed.
     public override void OnDisconnected(DisconnectCause cause)
     {
         if (isShowDebugLogInUnity)
         {
             Debug.Log("OnDisconnected(" + cause + ")");
         }
+        //Mettre ici un changement de scène pour la scène de choix de room
     }
 
     public override void OnJoinedRoom()
@@ -92,13 +57,16 @@ public class ConnectJoinRoom : MonoBehaviourPunCallbacks
         }
     }
 
-    public void AutoJoinOrCreateRoom()
+    /// <summary>
+    /// Fonction appelé uniquement lorsque le "joueur" crée une salle et deviendra donc le masterClient, 
+    /// car il est le premier à rejoindre cette room, vu qu'elle n'existait pas avant 
+    /// </summary>
+    public void CreateRoom(string roomName)
     {
         RoomOptions roomOptions = new RoomOptions() { MaxPlayers = this.MaxPlayers };
         if (playerTTL >= 0)
             roomOptions.PlayerTtl = playerTTL;
-        TypedLobby typedLobby = new TypedLobby("3iL",  LobbyType.Default);
-        PhotonNetwork.JoinOrCreateRoom("RoomAutoJoin3", roomOptions, typedLobby);
+        roomOptions.PublishUserId = true;
+        PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, null);
     }
-     
 }

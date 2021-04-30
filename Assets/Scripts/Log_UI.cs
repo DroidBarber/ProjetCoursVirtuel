@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Script qui permet l'affichage des log et leur effacement automatique au bout d'un certain temps
+/// </summary>
+
 [RequireComponent(typeof(Text))] // Oblige que l'objet qui possède ce script à posséder un Text, et s'il n'en a pas, en crée un
 public class Log_UI : MonoBehaviour
 {
@@ -55,7 +59,6 @@ public class Log_UI : MonoBehaviour
             }
         }
         
-
         if (textObj.text == "") // si aucun log, on désactive l'image background
             imageBackgroundLog.SetActive(false);
         else
@@ -78,6 +81,8 @@ public class Log_UI : MonoBehaviour
     {
         listeLog.Clear();
         listeChrono.Clear();
+
+        // le log n'est effectué que dans l'éditeur de Unity
 #if UNITY_EDITOR
         Debug.LogWarning("Utilisation de ForceClear dans Log_UI, faites attentions!!!");
 #endif

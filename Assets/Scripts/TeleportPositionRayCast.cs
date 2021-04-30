@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Script fonctionnel mais qui ne marche pas complettement
+/// Il permet de se téléporter à une position dans la salle en la pointant, néanmoins en le faisant, 
+/// cela nous téléporte à une position opposé à l'endroit où nous avons "pointé" avec le controller
+/// </summary>
+/// 
 public class TeleportPositionRayCast : MonoBehaviour
 {
     public GameObject player;
@@ -19,7 +25,7 @@ public class TeleportPositionRayCast : MonoBehaviour
     {
         //Debug.DrawRay(this.transform.position, this.transform.forward*10);
         
-        RaycastHit hit;
+     /*   RaycastHit hit;
         Ray ray = new Ray(this.transform.position, this.transform.forward);
 
         int layer_mask = LayerMask.GetMask("Ground");
@@ -37,7 +43,7 @@ public class TeleportPositionRayCast : MonoBehaviour
                 player.transform.position = new Vector3(hit.point.x, player.transform.position.y, hit.point.z);
                 //Il faudrait prendre en compte la différence de hauteur au niveau de l'estrade!!!
             }
-        }
+        }*/
         
     }
 }
